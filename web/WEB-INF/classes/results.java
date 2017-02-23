@@ -18,7 +18,6 @@ public class results extends HttpServlet {
             ArrayList<String> list = new ArrayList<String>();
             String x = "nornorlei";
             String y = "na";
-            request.setAttribute("list",list);
             String sumName = request.getParameter("summonerName");
             String region = request.getParameter("region");
 
@@ -27,13 +26,18 @@ public class results extends HttpServlet {
             }else {
                 if((sumName.equals(x)) && (region.equalsIgnoreCase(y))){
                     list.add(count,sumName + " " + region.toUpperCase());
+                    String s = ("s").concat(Integer.toString(count));
+                    request.getSession().setAttribute(s,list.get(count));
+                    request.getSession().setAttribute("count",count);
+                    count++;
                 }
+
                 PrintWriter out = response.getWriter();
                 out.write("<head>");
                 out.write("<title>Player Stats</title>");
                 out.write("</head>");
                 out.write("<body>");
-                out.write("<form name=\"adf\" action=\"recentSearch\" method=\"POST\">\n");
+                out.write("<form name=\"adf\" action=\"recentSearch\" method=\"GET\">\n");
                 out.write("<h1>Summoner " + sumName + " from " + region.toUpperCase() +  "</h1>");
                 out.write("<input type=\"submit\" value=\"Recently Searched\" name=\"submit\">");
                 out.write("<input type=\"button\" value=\"Another Search\" onclick=\"window.location.href='/findSum';\"/>");
