@@ -8,16 +8,17 @@ import javax.servlet.http.HttpServletResponse;
 
 
 public class results extends HttpServlet {
-    
-    int count = 0;
-    String URL="https://eune.api.pvp.net/api/lol/eune/v1.4/summoner/by-name/VeryAngryPig?api_key=RGAPI-654f4896-0393-46cc-9043-9e078860ed31";
 
+    String URL="https://eune.api.pvp.net/api/lol/eune/v1.4/summoner/by-name/VeryAngryPig?api_key=RGAPI-654f4896-0393-46cc-9043-9e078860ed31";
+    ArrayList<String> list = new ArrayList<String>();
     protected void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
             String username = (String) request.getSession().getAttribute("username");
 
-            ArrayList<String> list = new ArrayList<String>();
+
             String x = "nornorlei";
             String y = "na";
+
+
             String sumName = request.getParameter("summonerName");
             String region = request.getParameter("region");
 
@@ -25,13 +26,9 @@ public class results extends HttpServlet {
                 response.sendRedirect("/login");
             }else {
                 if((sumName.equals(x)) && (region.equalsIgnoreCase(y))){
-                    list.add(count,sumName + " " + region.toUpperCase());
-                    String s = ("s").concat(Integer.toString(count));
-                    request.getSession().setAttribute(s,list.get(count));
-                    request.getSession().setAttribute("count",count);
-                    count++;
+                    list.add(sumName + " " + region.toUpperCase());
                 }
-
+                request.getSession().setAttribute("list",list);
                 PrintWriter out = response.getWriter();
                 out.write("<head>");
                 out.write("<title>Player Stats</title>");
