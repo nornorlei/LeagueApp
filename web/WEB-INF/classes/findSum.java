@@ -25,7 +25,7 @@ public class findSum extends HttpServlet {
             out.write("</head>");
             out.write("<form  action=\"results\" method=\"GET\">\n");
             out.write("<body>");
-            out.write("<h1>Welcome to LoL summoner stats look up web app</h1>");
+            out.write("<h1>Find Summoner</h1>");
             out.write("<p>Please enter a summoner name and respective region</p>");
             out.write("<table>");
             out.write("<tr>");
@@ -45,10 +45,6 @@ public class findSum extends HttpServlet {
 
 
         }
-  //      else if(buttonPressed.equals("submit")){
-  //          out.write("<form name=\"adf\" action=\"results\" method=\"GET\">\n");
-  //      }
-
         else {
             response.sendRedirect("/login");
         }

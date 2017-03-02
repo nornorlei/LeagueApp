@@ -14,6 +14,6 @@ public class Signup extends HttpServlet{
 
         HttpSession session = req.getSession();
         session.setAttribute("username", username);
-        resp.sendRedirect("/login");
+        resp.sendRedirect("/Profile");
     }
 }

@@ -43,6 +43,13 @@
         <servlet-name>results</servlet-name>
         <servlet-class>results</servlet-class>
     </servlet>
+
+    <servlet>
+        <servlet-name>champResult</servlet-name>
+        <servlet-class>champResult</servlet-class>
+    </servlet>
+
+
     
     <servlet-mapping>
         <servlet-name>Signup</servlet-name>
@@ -72,5 +79,10 @@
     <servlet-mapping>
         <servlet-name>results</servlet-name>
         <url-pattern>/results</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>champResult</servlet-name>
+        <url-pattern>/champResult</url-pattern>
     </servlet-mapping>
 </web-app>

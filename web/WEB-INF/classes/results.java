@@ -35,7 +35,53 @@ public class results extends HttpServlet {
                 out.write("</head>");
                 out.write("<body>");
                 out.write("<form name=\"adf\" action=\"recentSearch\" method=\"GET\">\n");
+                out.write("<input type=\"submit\" value=\"Recently Searched\" name=\"submit\">");
+                out.write("<input type=\"button\" value=\"Another Search\" onclick=\"window.location.href='/findSum';\"/>");
+                out.write("<input type=\"button\" value=\"Return to Profile\" onclick=\"window.location.href='/Profile';\"/>");
                 out.write("<h1>Summoner " + sumName + " from " + region.toUpperCase() +  "</h1>");
+                out.write("<p>Rank: "+ "                    " + "points: </p>");
+
+                out.write("<div>");
+                    out.write("<ul>");
+                    out.write("<li><a href=\"#matchhistory\"> Match History </a></li>");
+                    out.write("<li><a href=\"#rankstats\"> Ranked Stats </a></li>");
+                    out.write("<li><a href=\"#runesnmasteries\"> Runes & Masteries </a></li>");
+                    out.write("<li><a href=\"#champmasteries\"> Champion Masteries </a></li>");
+                    out.write("</ul>");
+
+                    out.write("<div>");
+
+                        out.write("<div id=\"matchhistory\">");
+                        out.write("<h2><font size=\"12\">MATCH HISTORY</font></h2>");
+                        out.write("<p>");
+                        out.write("</p>");
+                        out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");
+                        out.write("</div>");
+
+                        out.write("<div id=\"rankstats\">");
+                        out.write("<h3><font size=\"12\">RANKED STATS </font></h3>");
+                        out.write("<p>");
+                       out.write("</p>");
+                out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");
+                        out.write("</div>");
+
+                        out.write("<div id=\"runesnmasteries\">");
+                        out.write("<h4><font size=\"12\">RUNES AND MASTERIES </font></h4>");
+                        out.write("<p>");
+                        out.write("</p>");
+                out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");
+                        out.write("</div>");
+
+                        out.write("<div id=\"champmasteries\">");
+                        out.write("<h5><font size=\"12\">CHAMPION MASTERIES</font></h5>");
+                        out.write("<p>");
+                        out.write("</p>");
+                out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");out.write("<p> g </p>");
+                        out.write("</div>");
+
+                    out.write("</div>");
+                out.write("</div>");
+
                 out.write("<input type=\"submit\" value=\"Recently Searched\" name=\"submit\">");
                 out.write("<input type=\"button\" value=\"Another Search\" onclick=\"window.location.href='/findSum';\"/>");
                 out.write("<input type=\"button\" value=\"Return to Profile\" onclick=\"window.location.href='/Profile';\"/>");
