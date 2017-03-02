@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="LeagueApp:war">
+    <output-path>$PROJECT_DIR$/out/artifacts/LeagueApp_war</output-path>
+    <root id="archive" name="LeagueApp_war.war">
+      <element id="artifact" artifact-name="LeagueApp:war exploded" />
+    </root>
+  </artifact>
+</component>
