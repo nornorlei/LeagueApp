@@ -39,10 +39,6 @@
         <servlet-class>recentSearch</servlet-class>
     </servlet>
 
-    <servlet>
-        <servlet-name>results</servlet-name>
-        <servlet-class>results</servlet-class>
-    </servlet>
 
     <servlet>
         <servlet-name>champResult</servlet-name>
@@ -76,13 +72,11 @@
         <url-pattern>/recentSearch</url-pattern>
     </servlet-mapping>
 
-    <servlet-mapping>
-        <servlet-name>results</servlet-name>
-        <url-pattern>/results</url-pattern>
-    </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>champResult</servlet-name>
         <url-pattern>/champResult</url-pattern>
     </servlet-mapping>
+    
+
 </web-app>

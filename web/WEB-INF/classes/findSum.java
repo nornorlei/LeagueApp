@@ -23,7 +23,7 @@ public class findSum extends HttpServlet {
             out.write("<head>");
             out.write("<title>Home Page</title>");
             out.write("</head>");
-            out.write("<form  action=\"results\" method=\"GET\">\n");
+            out.write("<form action=\"results.jsp\">");
             out.write("<body>");
             out.write("<h1>Find Summoner</h1>");
             out.write("<p>Please enter a summoner name and respective region</p>");
