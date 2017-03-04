@@ -10,34 +10,26 @@ import java.sql.Connection;
 
 public class Signup extends HttpServlet{
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String email = request.getParameter("email");
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        HttpSession session = request.getSession();
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String email = req.getParameter("email");
+        String username = req.getParameter("username");
+        String password = req.getParameter("password");
+        HttpSession session = req.getSession();
         session.setAttribute("username", username);
-
-
         try {
-            //register your mysql jdbc driver with the java application.
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
             Connection conn = new DBConnection().getconnection();
             PreparedStatement statement = null;
-            statement = conn.prepareStatement("INSERT INTO accounts VALUES (?,?,?,?)");
+
+            statement = conn.prepareStatement("INSERT INTO Users VALUES (?,?,?,?)");
             statement.setString(1, username);
             statement.setString(2, password);
             statement.setString(3, email);
             statement.setString(4, (String) session.getAttribute("username"));
-            statement.executeUpdate();
+            statement.executeQuery();
         }catch (SQLException e){
             System.out.println(e);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            resp.sendRedirect("/login");
         }
-        response.sendRedirect("/login");
+
     }
 }
