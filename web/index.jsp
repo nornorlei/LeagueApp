@@ -5,6 +5,7 @@
   </head>
   <body>
   <h1>Welcome Summoner!</h1>
+
   <p>Type in a summoner name in order to get details regarding the user.</p>
   <form action="/Signup" method="POST">
     <input type="text" name="username" placeholder="Username">

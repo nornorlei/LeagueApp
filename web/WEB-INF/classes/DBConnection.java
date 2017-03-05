@@ -2,17 +2,22 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Connection;
 
-public class DBConnection {
+public class DBConnection{
 
-    private static final String user = "root";
-    private static final String password = "123";
-    //private static final String url = "jdbc:mysql://pi.cs.oswego.edu:3306/cayuga";
-    private static final String url = "jdbc:mysql://localhost:3306/users";
-
+    private static final String user = "panda";
+    private static final String password = "baobao";
+    private static final String url = "jdbc:mysql://pi.cs.oswego.edu:3306/cayuga";
+    public Connection connection;
 
     public Connection getconnection() throws SQLException{
+        connection = DriverManager.getConnection(url, user, password);
+        return connection;
+    }
 
-        return DriverManager.getConnection(url, user, password);
+    public void close() throws SQLException{
+        if(connection != null){
+                connection.close();
+        }
     }
 
 }
