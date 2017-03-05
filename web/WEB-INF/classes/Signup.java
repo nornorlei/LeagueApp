@@ -17,6 +17,7 @@ public class Signup extends HttpServlet{
         HttpSession session = req.getSession();
         session.setAttribute("username", username);
         try {
+            Class.forName("com.mysql.jdbc.Driver");
             Connection conn = new DBConnection().getconnection();
             PreparedStatement statement = null;
 
@@ -25,11 +26,13 @@ public class Signup extends HttpServlet{
             statement.setString(2, password);
             statement.setString(3, email);
             statement.setString(4, (String) session.getAttribute("username"));
-            statement.executeQuery();
+            statement.executeUpdate();
         }catch (SQLException e){
             System.out.println(e);
-            resp.sendRedirect("/login");
+        } catch (ClassNotFoundException e) {
+            System.out.println(e);
         }
 
+        resp.sendRedirect("/login");
     }
 }
