@@ -42,9 +42,8 @@ public class champPage extends HttpServlet {
 
                     System.out.println(postID + " " + champID + " " + postName);
                 }
-
+                response.sendRedirect("/champPage.jsp");
             }
-            response.sendRedirect("/champPage.jsp");
         }catch (SQLException e){
             System.out.println(e);
         } catch (ClassNotFoundException e) {
