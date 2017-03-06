@@ -46,7 +46,7 @@ public class findSum extends HttpServlet {
 
         }
         else {
-            response.sendRedirect("/login");
+            response.sendRedirect("/login.jsp");
         }
     }
 }

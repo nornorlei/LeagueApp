@@ -21,7 +21,7 @@ public class Signup extends HttpServlet{
             Connection conn = new DBConnection().getconnection();
             PreparedStatement statement = null;
 
-            statement = conn.prepareStatement("INSERT INTO Users VALUES (?,?,?,?)");
+            statement = conn.prepareStatement("INSERT INTO accounts VALUES (?,?,?,?)");
             statement.setString(1, username);
             statement.setString(2, password);
             statement.setString(3, email);
@@ -33,6 +33,6 @@ public class Signup extends HttpServlet{
             System.out.println(e);
         }
 
-        resp.sendRedirect("/login");
+        resp.sendRedirect("/login.jsp");
     }
 }

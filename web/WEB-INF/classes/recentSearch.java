@@ -25,21 +25,11 @@ public class recentSearch extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
 
-        //
+        out.write("<form action=\"recentlySearched.jsp\">");
         String summoner = request.getParameter("summonerName");
         String region = request.getParameter("region");
 
-        try {
-            Connection conn = new DBConnection().getconnection();
-            PreparedStatement statement = null;
 
-            statement = conn.prepareStatement("INSERT INTO RecentSearches VALUES (?,?)");
-            statement.setString(1, summoner);
-            statement.setString(2, region);
-            statement.executeQuery();
-        }catch (SQLException e){
-            System.out.println(e);
-        }
         response.sendRedirect("/login");
 //meow
 
