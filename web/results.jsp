@@ -4,7 +4,7 @@
     <title>Player Stat</title>
 </head>
 <body>
-    <form name=adf action=recentSearched method=POST></form>
+    <form name=adf action=recentSearch method=POST>
     <input type=submit value="Recently Searched" name=submit>
     <input type=button value="Another Search" onclick=window.location.href='/findSum';>
     <input type=button value="Return to Profile" onclick=window.location.href='/Profile';>
@@ -45,6 +45,6 @@
     <input type=submit value="Recently Searched" name= submit>
     <input type=button value="Another Search" onclick=window.location.href='/findSum';>
     <input type=button value="Return to Profile" onclick=window.location.href='/Profile';>
-
+</form>
 </body>
 </html>

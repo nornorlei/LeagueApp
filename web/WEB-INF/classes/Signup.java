@@ -21,7 +21,11 @@ public class Signup extends HttpServlet{
             Connection conn = new DBConnection().getconnection();
             PreparedStatement statement = null;
 
-            statement = conn.prepareStatement("INSERT INTO accounts VALUES (?,?,?,?)");
+            //what if username already taken?
+            //what if pw not long enough?
+
+
+            statement = conn.prepareStatement("INSERT INTO Users VALUES (?,?,?,?)");
             statement.setString(1, username);
             statement.setString(2, password);
             statement.setString(3, email);

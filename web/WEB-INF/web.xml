@@ -19,15 +19,18 @@
         <servlet-class>login</servlet-class>
     </servlet>
 
+
     <servlet>
-        <servlet-name>champs</servlet-name>
-        <servlet-class>champs</servlet-class>
+        <servlet-name>champPage</servlet-name>
+        <servlet-class>champPage</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>champs</servlet-name>
-        <url-pattern>/champs</url-pattern>
+        <servlet-name>champPage</servlet-name>
+        <url-pattern>/champPage</url-pattern>
     </servlet-mapping>
+
+
 
     <servlet>
         <servlet-name>findSum</servlet-name>

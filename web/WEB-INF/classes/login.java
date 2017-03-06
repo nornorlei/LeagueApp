@@ -20,7 +20,7 @@ public class login extends HttpServlet {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = new DBConnection().getconnection();
-            String query = "select password from accounts where username ='" + username + "'";
+            String query = "select password from Users where username ='" + username + "'";
             Statement statement = conn.createStatement();
             ResultSet pw = statement.executeQuery(query);
             boolean empty = true;
@@ -47,6 +47,5 @@ public class login extends HttpServlet {
             System.out.println(e);
         }
 
-        //response.sendRedirect("/login.jsp");
     }
 }

@@ -17,7 +17,7 @@ public class Profile extends HttpServlet {
             PrintWriter print = resp.getWriter();
             print.write("<h1>" + "Hi Summoner " + username + "</h1>");
             print.write("<p><a href=\"findSum\">Find Summoner</a></p>");
-            print.write("<p><a href=\"champs\">Look for builds</a></p>");
+            print.write("<p><a href=\"champs.jsp\">Look for builds</a></p>");
         }
     }
 }
