@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 
 // this is basically just a drop down menu page with all the champions
@@ -18,6 +19,7 @@ public class champPage extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String champ = (String) request.getParameter("champ");
+
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -34,9 +36,13 @@ public class champPage extends HttpServlet {
                 ResultSet posts = statement.executeQuery(query2);
 
                 while(posts.next()){
-                    String post = posts.getString("name");
-                    System.out.println(post);
+                    String postName = posts.getString("name");
+                    String postID = posts.getString("post_id");
+                    String champID = posts.getString("champ_id");
+
+                    System.out.println(postID + " " + champID + " " + postName);
                 }
+
             }
             response.sendRedirect("/champPage.jsp");
         }catch (SQLException e){
