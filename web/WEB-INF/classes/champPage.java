@@ -12,13 +12,16 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 
-// this is basically just a drop down menu page with all the champions
 
 public class champPage extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String champ = (String) request.getParameter("champ");
+        ArrayList<String> postList = new <String> ArrayList();
+        postList.add(0,"");
+        PrintWriter out = response.getWriter();
+
 
 
         try {
@@ -30,7 +33,9 @@ public class champPage extends HttpServlet {
             ResultSet champ_id = statement.executeQuery(query1);
             while(champ_id.next()) {
                 String id = champ_id.getString("champ_id");
+                request.getSession().setAttribute("champ_id",id);
                 System.out.println(id);
+
 
                 String query2 = "select* from posts where champ_id=" + id;
                 ResultSet posts = statement.executeQuery(query2);
@@ -40,8 +45,12 @@ public class champPage extends HttpServlet {
                     String postID = posts.getString("post_id");
                     String champID = posts.getString("champ_id");
 
+
+                    postList.add(Integer.parseInt(postID), "<p>" + postName + "<input type=\"submit\" value=\"" + postID +"\" name=\"postID\" />" + "</p>");
                     System.out.println(postID + " " + champID + " " + postName);
                 }
+                request.getSession().setAttribute("postList",postList);
+                System.out.println(postList);
                 response.sendRedirect("/champPage.jsp");
             }
         }catch (SQLException e){

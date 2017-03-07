@@ -48,6 +48,15 @@
         <servlet-class>champResult</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>buildPage</servlet-name>
+        <servlet-class>buildPage</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>buildPage</servlet-name>
+        <url-pattern>/buildPage</url-pattern>
+    </servlet-mapping>
 
     
     <servlet-mapping>
