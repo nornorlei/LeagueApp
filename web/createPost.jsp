@@ -12,7 +12,7 @@
 </head>
 <body>
     <h1>Create your build</h1>
-    <form action="/createPost" method="POST">
+    <form action="/createBuild" method="POST">
         <select name="champ"  size="10"  required>
             <option value="aatrox">Aatrox</option>
             <option value="ahri">Ahri</option>

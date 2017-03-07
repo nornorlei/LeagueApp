@@ -45,25 +45,12 @@ public class createBuild extends HttpServlet {
             ResultSet postCount = statement.executeQuery(postCountQuery);
             while(postCount.next()) {
                 post_count = postCount.getString("count(*)");
-                request.getSession().setAttribute("champ_id",id);
-                System.out.println(id);
 
 
-                String query2 = "select* from posts where champ_id=" + id;
-                ResultSet posts = statement.executeQuery(query2);
-
-                while(posts.next()){
-                    String postName = posts.getString("name");
-                    String postID = posts.getString("post_id");
-                    String champID = posts.getString("champ_id");
 
 
-                    postList.add(Integer.parseInt(postID), "<p>" + postName + "<input type=\"submit\" value=\"" + postID +"\" name=\"postID\" />" + "</p>");
-                    System.out.println(postID + " " + champID + " " + postName);
-                }
-                request.getSession().setAttribute("postList",postList);
-                System.out.println(postList);
-                response.sendRedirect("/champPage.jsp");
+
+                response.sendRedirect("/champs.jsp");
             }
         }catch (SQLException e){
             System.out.println(e);
