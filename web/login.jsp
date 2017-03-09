@@ -16,7 +16,7 @@
             </tr>
             <tr>
             <th>Password</th>
-            <th><input type="text" name="password" /></th>
+            <th><input type="password" name="password" /></th>
             </tr>
         </table>
 

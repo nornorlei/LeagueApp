@@ -60,9 +60,5 @@ public class champPage extends HttpServlet {
         } catch (ClassNotFoundException e) {
             System.out.println(e);
         }
-
-
-
-
     }
 }

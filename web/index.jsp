@@ -6,12 +6,9 @@
   <body>
   <h1>Welcome Summoner!</h1>
 
-  <p>Type in a summoner name in order to get details regarding the user.</p>
-  <form action="/Signup" method="POST">
-    <input type="text" name="username" placeholder="Username">
-    <input type="text" name="password" placeholder="Password">
-    <input type="email" name="email" placeholder="Email">
-    <input type="submit" name="submit" value="Submit">
-  </form>
+  <input type="button" value="Sign Up" onclick=window.location.href='/signup.jsp';>
+  <input type="button" value="Login" onclick=window.location.href='/login.jsp';>
+  <input type="button" value="Champs List" onclick=window.location.href='/champs.jsp';>
+
   </body>
 </html>

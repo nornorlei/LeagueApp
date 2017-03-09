@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Connection;
+import java.sql.ResultSet;
 
 public class Signup extends HttpServlet{
     @Override
@@ -21,22 +22,30 @@ public class Signup extends HttpServlet{
             Connection conn = new DBConnection().getconnection();
             PreparedStatement statement = null;
 
-            //what if username already taken?
             //what if pw not long enough?
 
-
-            statement = conn.prepareStatement("INSERT INTO Users VALUES (?,?,?,?)");
+            statement = conn.prepareStatement("Select * FROM Users WHERE username = ? OR email = ?");
             statement.setString(1, username);
-            statement.setString(2, password);
-            statement.setString(3, email);
-            statement.setString(4, (String) session.getAttribute("username"));
-            statement.executeUpdate();
+            statement.setString(2, email);
+            ResultSet result = statement.executeQuery();
+
+            if(result.first()) {
+                resp.sendRedirect("/signup.jsp");
+            }
+            else{
+                statement = conn.prepareStatement("INSERT INTO Users VALUES (?,?,?,?)");
+                statement.setString(1, username);
+                statement.setString(2, password);
+                statement.setString(3, email);
+                statement.setString(4, (String) session.getAttribute("username"));
+                statement.executeUpdate();
+
+                resp.sendRedirect("/login.jsp");
+            }
         }catch (SQLException e){
             System.out.println(e);
         } catch (ClassNotFoundException e) {
             System.out.println(e);
         }
-
-        resp.sendRedirect("/login.jsp");
     }
 }
