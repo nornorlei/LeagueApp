@@ -6,11 +6,14 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <html>
 <head>
-    <title>Build Guide</title>
+    <title>Build Guides for champion</title>
 </head>
 <body>
-
+<form action="/buildPage" method="POST">
+    <%=request.getSession().getAttribute("postList")%>
+</form>
 </body>
 </html>

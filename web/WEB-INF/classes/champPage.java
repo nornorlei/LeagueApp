@@ -49,7 +49,8 @@ public class champPage extends HttpServlet {
                     postList.add(Integer.parseInt(postID), "<p>" + postName + "<input type=\"submit\" value=\"" + postID +"\" name=\"postID\" />" + "</p>");
                     System.out.println(postID + " " + champID + " " + postName);
                 }
-                request.getSession().setAttribute("postList",postList);
+                String formattedList = postList.toString().replace(",","").replace("[","").replace("]","");
+                request.getSession().setAttribute("postList",formattedList);
                 System.out.println(postList);
                 response.sendRedirect("/champPage.jsp");
             }

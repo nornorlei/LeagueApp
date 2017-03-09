@@ -21,6 +21,7 @@ public class buildPage extends HttpServlet {
             Connection conn = new DBConnection().getconnection();
             Statement statement = conn.createStatement();
             String query = "select* from Builds where post_id=" + post_id;
+            String query2 = "select name from posts where post_id=" +post_id;
             ResultSet build = statement.executeQuery(query);
 
             while(build.next()){
@@ -43,11 +44,15 @@ public class buildPage extends HttpServlet {
                 String ability_sequence = build.getString("ability_sequence");
                 String masteries = build.getString("masteries");
 
-                System.out.println(build_id + " " + postID + " " + likes + " " + dislikes + " " + ss1 + " " + ss2+ " "+marks + " "+seals + " "+ glyphs+ " "+ quints+ " "+ i1+ " "+ i2+ " "+ i3+ " "+ i4+ " "+i5 + " "+i6 + " "+ ability_sequence + " "+ masteries);
+                ResultSet post_name = statement.executeQuery(query2);
+                while (post_name.next()){
 
+                    String name = post_name.getString("name");
+                    System.out.println(name + " " +build_id + " " + postID + " " + likes + " " + dislikes + " " + ss1 + " " + ss2+ " "+marks + " "+seals + " "+ glyphs+ " "+ quints+ " "+ i1+ " "+ i2+ " "+ i3+ " "+ i4+ " "+i5 + " "+i6 + " "+ ability_sequence + " "+ masteries);
 
-                response.sendRedirect("/buildPage.jsp");
+                    response.sendRedirect("/buildPage.jsp");
 
+                }
             }
 
 

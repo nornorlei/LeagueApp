@@ -3,12 +3,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.transform.Result;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 
@@ -39,15 +37,34 @@ public class createBuild extends HttpServlet {
 
         try {
             String postCountQuery = "select count(*) from posts";
+            String getChampIDQuery = "select champ_id from ChampionList where champ_name='" + champ + "'";
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = new DBConnection().getconnection();
-            Statement statement = conn.createStatement();
-            ResultSet postCount = statement.executeQuery(postCountQuery);
+            Statement statement1 = conn.createStatement();
+            ResultSet postCount = statement1.executeQuery(postCountQuery);
             while(postCount.next()) {
                 post_count = postCount.getString("count(*)");
+                String post_num = Integer.toString(Integer.parseInt(post_count) + 1);
+
+                Statement statement2 = conn.createStatement();
+                ResultSet id = statement2.executeQuery(getChampIDQuery);
+                while(id.next()) {
+                    String champID = id.getString("champ_id");
+
+                    PreparedStatement statement3 = null;
+                    PreparedStatement statement4 = null;...
+
+                    statement3 = conn.prepareStatement("INSERT INTO posts VALUES (?,?,?)");
+                    statement3.setString(1, post_num);
+                    statement3.setString(2, champID);
+                    statement3.setString(3, post_name);
+                    statement3.executeUpdate();
+
+                    statement4 = conn.prepareStatement("INSERT INTO Builds VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
 
 
+                }
 
 
                 response.sendRedirect("/champs.jsp");
