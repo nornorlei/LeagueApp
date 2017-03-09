@@ -28,7 +28,7 @@ public class champPage extends HttpServlet {
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = new DBConnection().getconnection();
             String query1 = "select champ_id from ChampionList where champ_name='" + champ + "'";
-
+            int count = 1;
             Statement statement = conn.createStatement();
             ResultSet champ_id = statement.executeQuery(query1);
             while(champ_id.next()) {
@@ -46,7 +46,8 @@ public class champPage extends HttpServlet {
                     String champID = posts.getString("champ_id");
 
 
-                    postList.add(Integer.parseInt(postID), "<p>" + postName + "<input type=\"submit\" value=\"" + postID +"\" name=\"postID\" />" + "</p>");
+                    postList.add(count, "<p>" + postName + "<input type=\"submit\" value=\"" + postID +"\" name=\"postID\" />" + "</p>");
+                    count++;
                     System.out.println(postID + " " + champID + " " + postName);
                 }
                 String formattedList = postList.toString().replace(",","").replace("[","").replace("]","");
