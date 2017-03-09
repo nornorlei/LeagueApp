@@ -3,11 +3,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.xml.transform.Result;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.sql.PreparedStatement;
 
 
 
@@ -32,51 +35,66 @@ public class createBuild extends HttpServlet {
         String i6 = (String) request.getParameter("i6");
         String ability_sequence = (String) request.getParameter("ability_sequence");
         String masteries = (String) request.getParameter("masteries");
+        System.out.println(champ +" " + post_name + " " +ss1+ " " +ss2+ " " +marks+ " " +seals+ " " +glyphs+ " " +quints+ " " +i1+ " " +i2+ " " +i3+ " " +i4+ " " +i5+ " " +i6+ " " +ability_sequence+ " " +masteries);
 
 
 
-        try {
+        try {Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = new DBConnection().getconnection();
             String postCountQuery = "select count(*) from posts";
             String getChampIDQuery = "select champ_id from ChampionList where champ_name='" + champ + "'";
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = new DBConnection().getconnection();
             Statement statement1 = conn.createStatement();
             ResultSet postCount = statement1.executeQuery(postCountQuery);
-            while(postCount.next()) {
+            while (postCount.next()) {
                 post_count = postCount.getString("count(*)");
                 String post_num = Integer.toString(Integer.parseInt(post_count) + 1);
-
+                System.out.println(post_num);
                 Statement statement2 = conn.createStatement();
                 ResultSet id = statement2.executeQuery(getChampIDQuery);
-                while(id.next()) {
+                while (id.next()) {
                     String champID = id.getString("champ_id");
 
                     PreparedStatement statement3 = null;
-                    PreparedStatement statement4 = null;...
-
+                    PreparedStatement statement4 = null;
+                    System.out.println(post_num + " " + champID + " " + post_name);
                     statement3 = conn.prepareStatement("INSERT INTO posts VALUES (?,?,?)");
                     statement3.setString(1, post_num);
                     statement3.setString(2, champID);
                     statement3.setString(3, post_name);
                     statement3.executeUpdate();
 
+                    System.out.println(post_num + " " +ss1+ " " +ss2+ " " +marks+ " " +seals+ " " +glyphs+ " " +quints+ " " +i1+ " " +i2+ " " +i3+ " " +i4+ " " +i5+ " " +i6+ " " +ability_sequence+ " " +masteries);
                     statement4 = conn.prepareStatement("INSERT INTO Builds VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-
-
-
+                    statement4.setString(1,post_num);
+                    statement4.setString(2,post_num);
+                    statement4.setString(3,"0");
+                    statement4.setString(4,"0");
+                    statement4.setString(5,ss1);
+                    statement4.setString(6,ss2);
+                    statement4.setString(7,marks);
+                    statement4.setString(8,seals);
+                    statement4.setString(9,glyphs);
+                    statement4.setString(10,quints);
+                    statement4.setString(11,i1);
+                    statement4.setString(12,i2);
+                    statement4.setString(13,i3);
+                    statement4.setString(14,i4);
+                    statement4.setString(15,i5);
+                    statement4.setString(16,i6);
+                    statement4.setString(17,ability_sequence);
+                    statement4.setString(18,masteries);
+                    statement4.executeUpdate();
                 }
-
-
-                response.sendRedirect("/champs.jsp");
+                response.sendRedirect("/Profile");
             }
-        }catch (SQLException e){
+
+        }catch(SQLException e){
             System.out.println(e);
-        } catch (ClassNotFoundException e) {
+        } catch(ClassNotFoundException e){
             System.out.println(e);
         }
 
 
-
-
     }
+
 }

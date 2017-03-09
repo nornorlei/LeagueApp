@@ -124,7 +124,7 @@
         <input type="text" name="i3" placeholder="Item 3">
         <input type="text" name="i4" placeholder="Item 4">
         <input type="text" name="i5" placeholder="Item 5">
-        <input type="text" name="i6" placeholder="Item 5">
+        <input type="text" name="i6" placeholder="Item 6">
         <input type="text" name="ability_sequence" placeholder="Ability Sequence">
         <input type="text" name="masteries" placeholder="Masteries">
 

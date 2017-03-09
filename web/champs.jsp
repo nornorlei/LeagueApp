@@ -114,6 +114,7 @@
 
     <input type="submit" value="Submit" name="submit">
     <input type="button" value="Return to Profile" onclick=window.location.href='/Profile';>
+    <input type="button" value="Create build" onclick=window.location.href='/createPost.jsp';>
 </form>
 </body>
 </html>

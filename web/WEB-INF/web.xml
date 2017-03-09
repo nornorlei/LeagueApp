@@ -53,6 +53,16 @@
         <servlet-class>buildPage</servlet-class>
     </servlet>
     
+    <servlet>
+        <servlet-name>createBuild</servlet-name>
+        <servlet-class>createBuild</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>createBuild</servlet-name>
+        <url-pattern>/createBuild</url-pattern>
+    </servlet-mapping>
+    
     <servlet-mapping>
         <servlet-name>buildPage</servlet-name>
         <url-pattern>/buildPage</url-pattern>
