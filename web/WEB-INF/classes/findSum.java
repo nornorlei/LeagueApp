@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 public class findSum extends HttpServlet {
 
     
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         //call the RESTful thing here to fetch the information
