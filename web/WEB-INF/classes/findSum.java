@@ -15,6 +15,8 @@ public class findSum extends HttpServlet {
             throws ServletException, IOException {
 
         //call the RESTful thing here to fetch the information
+        //redirect to results.jsp
+
 
 
     }

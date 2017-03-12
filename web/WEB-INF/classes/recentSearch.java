@@ -27,5 +27,6 @@ public class recentSearch extends HttpServlet {
 
         //get the values from results.jsp  including summoner name, region, + maybe a redirect?
         // organize the data too
+        //redirect to recentlySearched.jsp
     }
 }
