@@ -32,7 +32,7 @@ public class login extends HttpServlet {
                  if (password.equals(pass)){
                      HttpSession session = request.getSession();
                      session.setAttribute("username", username);
-                    response.sendRedirect("/Profile");
+                    response.sendRedirect("/Profile.jsp");
                 }
                 else{
                     response.sendRedirect("/login.jsp");

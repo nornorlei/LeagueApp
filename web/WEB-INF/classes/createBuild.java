@@ -85,7 +85,7 @@ public class createBuild extends HttpServlet {
                     statement4.setString(18,masteries);
                     statement4.executeUpdate();
                 }
-                response.sendRedirect("/Profile");
+                response.sendRedirect("/champs.jsp");
             }
 
         }catch(SQLException e){

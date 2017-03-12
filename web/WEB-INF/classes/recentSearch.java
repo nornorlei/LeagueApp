@@ -21,17 +21,12 @@ import java.sql.Connection;
 
 public class recentSearch extends HttpServlet {
 
+    ArrayList <String> recentSearch = new ArrayList();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
 
-        out.write("<form action=\"recentlySearched.jsp\">");
-        String summoner = request.getParameter("summonerName");
-        String region = request.getParameter("region");
-
-
-        response.sendRedirect("/login");
-//meow
-
+        //get the values from results.jsp  including summoner name, region, + maybe a redirect?
+        // organize the data too
+        //redirect to recentlySearched.jsp
     }
 }
