@@ -22,7 +22,7 @@
 
 <input type="reset" value="Clear" name="clear">
 <input type="submit" value="Login" name="submit">
-<input type="button" value="Signup" onclick=window.location.href='/index.jsp';>
+<input type="button" value="Signup" onclick=window.location.href='/signup.jsp';>
 
 </form>
 </body>
