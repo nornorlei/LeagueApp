@@ -1,5 +1,5 @@
-//import com.google.gson.JsonObject;
-//import com.google.gson.JsonParser;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 
 import java.io.IOException;
@@ -16,10 +16,8 @@ public class APIConnection {
     //private String summoner = "nornorlei";
 
     public static void main(String[] args) {
-        APIConnection req = new APIConnection();
-        if (req.makeRequest("nornorlei","na")){
 
-        }
+        //new APIConnection().makeRequest("nornorlei","na");
     }
 
     public boolean makeRequest(String summoner, String region) {
@@ -28,25 +26,25 @@ public class APIConnection {
         HttpURLConnection connection = getConnection(url);
         if (connection != null) {
 
-//            Scanner scanner = getConnectionScanner(connection);
-//
-//            if (scanner != null) {
-//                String display = "";
-//                while (scanner.hasNextLine()) {
-//                    display = display.concat(scanner.nextLine());
-//                }
-//
-//                System.out.println("webpage display: " + display);
-//
-//                //getting individual elements
-//                JsonObject jsonObject = new JsonParser().parse(display).getAsJsonObject();
-//                JsonObject objects = jsonObject.get(summoner).getAsJsonObject();
-//                System.out.println(objects.get("id").getAsString());
-//                System.out.println(objects.get("name").getAsString());
-//                System.out.println(objects.get("summonerLevel").getAsString());
-//
-//
-//            }
+            Scanner scanner = getConnectionScanner(connection);
+
+            if (scanner != null) {
+                String display = "";
+                while (scanner.hasNextLine()) {
+                    display = display.concat(scanner.nextLine());
+                }
+
+                System.out.println("webpage display: " + display);
+
+                //getting individual elements
+                JsonObject jsonObject = new JsonParser().parse(display).getAsJsonObject();
+                JsonObject objects = jsonObject.get(summoner).getAsJsonObject();
+                System.out.println(objects.get("id").getAsString());
+                System.out.println(objects.get("name").getAsString());
+                System.out.println(objects.get("summonerLevel").getAsString());
+
+
+            }
             return true;
         }else{
             return false;

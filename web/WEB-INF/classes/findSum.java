@@ -19,6 +19,7 @@ public class findSum extends HttpServlet {
 
         APIConnection findSum= new APIConnection();
         if((findSum.makeRequest(summonerName,region)==true) && (stat.equals("matchhistory")) ){
+            response.sendRedirect("/matchhistory.jsp");
             request.getSession().setAttribute("summonerName",summonerName);
         } else if((findSum.makeRequest(summonerName,region)==true) && (stat.equals("rankedstats")) ){
             response.sendRedirect("/rankedStats.jsp");
