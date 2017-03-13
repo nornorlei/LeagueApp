@@ -1,7 +1,6 @@
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -37,11 +36,17 @@ public class APIConnection {
                 System.out.println("webpage display: " + display);
 
                 //getting individual elements
-                JsonObject jsonObject = new JsonParser().parse(display).getAsJsonObject();
-                JsonObject objects = jsonObject.get(summoner).getAsJsonObject();
-                System.out.println(objects.get("id").getAsString());
-                System.out.println(objects.get("name").getAsString());
-                System.out.println(objects.get("summonerLevel").getAsString());
+                try {
+                    Class.forName("com.google.gson.JsonObject");
+                    JsonObject jsonObject = new JsonParser().parse(display).getAsJsonObject();
+                    JsonObject objects = jsonObject.get(summoner).getAsJsonObject();
+                    System.out.println(objects.get("id").getAsString());
+                    System.out.println(objects.get("name").getAsString());
+                    System.out.println(objects.get("summonerLevel").getAsString());
+                }catch (ClassNotFoundException e) {
+                    System.out.println(e);
+                }
+
 
 
             }
