@@ -1,30 +1,32 @@
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import javax.servlet.http.HttpServlet;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
-public class APIConnection {
-
+public class APIConnection extends HttpServlet{
 
     private String apiKey = "RGAPI-654f4896-0393-46cc-9043-9e078860ed31";
     //private String region = "na";
     //private String summoner = "nornorlei";
+
 
     public static void main(String[] args) {
 
         //new APIConnection().makeRequest("nornorlei","na");
     }
 
-    public boolean makeRequest(String summoner, String region) {
+    public void makeRequest(String summoner, String region) {
+
         String url = "https://" + region + ".api.pvp.net/api/lol/".concat(region).concat("/v1.4/summoner/by-name/").concat(summoner).concat("?api_key=").concat(apiKey);
         System.out.println(url);
         HttpURLConnection connection = getConnection(url);
-        if (connection != null) {
 
+        if (connection != null) {
             Scanner scanner = getConnectionScanner(connection);
 
             if (scanner != null) {
@@ -36,24 +38,25 @@ public class APIConnection {
                 System.out.println("webpage display: " + display);
 
                 //getting individual elements
+
                 try {
                     Class.forName("com.google.gson.JsonObject");
                     JsonObject jsonObject = new JsonParser().parse(display).getAsJsonObject();
                     JsonObject objects = jsonObject.get(summoner).getAsJsonObject();
                     System.out.println(objects.get("id").getAsString());
+
                     System.out.println(objects.get("name").getAsString());
                     System.out.println(objects.get("summonerLevel").getAsString());
-                }catch (ClassNotFoundException e) {
+                } catch (ClassNotFoundException e) {
                     System.out.println(e);
+
                 }
 
 
-
             }
-            return true;
-        }else{
-            return false;
         }
+
+
     }
 
     private HttpURLConnection getConnection(String urlString) {
