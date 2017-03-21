@@ -1,27 +1,31 @@
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import javax.servlet.http.HttpServlet;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.*;
 import java.util.Scanner;
 
-public class APIConnection extends HttpServlet{
+public class APIConnection{
 
     private String apiKey = "RGAPI-654f4896-0393-46cc-9043-9e078860ed31";
     //private String region = "na";
     //private String summoner = "nornorlei";
+    private String gotSumName;
+    //private String gotSumID;
 
 
-    public static void main(String[] args) {
-
-        //new APIConnection().makeRequest("nornorlei","na");
-    }
+//    public static void main(String[] args) {
+//
+//        new APIConnection().makeRequest("nornorlei","na");
+//        APIConnection findSum = new APIConnection();
+//        findSum.makeRequest("nornorlei","na");
+//
+//    }
 
     public void makeRequest(String summoner, String region) {
-
         String url = "https://" + region + ".api.pvp.net/api/lol/".concat(region).concat("/v1.4/summoner/by-name/").concat(summoner).concat("?api_key=").concat(apiKey);
         System.out.println(url);
         HttpURLConnection connection = getConnection(url);
@@ -40,24 +44,76 @@ public class APIConnection extends HttpServlet{
                 //getting individual elements
 
                 try {
+                    System.out.println("breka 0");
                     Class.forName("com.google.gson.JsonObject");
+                    Class.forName("com.google.gson.JsonParser");
                     JsonObject jsonObject = new JsonParser().parse(display).getAsJsonObject();
                     JsonObject objects = jsonObject.get(summoner).getAsJsonObject();
-                    System.out.println(objects.get("id").getAsString());
 
-                    System.out.println(objects.get("name").getAsString());
-                    System.out.println(objects.get("summonerLevel").getAsString());
-                } catch (ClassNotFoundException e) {
+                    System.out.println("break 1 ");
+
+
+                    Class.forName("com.mysql.jdbc.Driver");
+                    Connection conn = new DBConnection().getconnection();
+                    PreparedStatement statement = conn.prepareStatement("insert into temp_variables values (?)");
+                    statement.setString(1, objects.get("name").getAsString());
+                    statement.executeUpdate();
+
+                    System.out.println("breal 2");
+
+//                    System.out.println(objects.get("id").getAsString());
+//
+                    System.out.println("try " + objects.get("name").getAsString());
+//                    System.out.println(objects.get("summonerLevel").getAsString());
+
+                    //setGotSumID(objects.get("id").getAsString());
+                    //System.out.println(getID());
+                    //setGotSumName(objects.get("name").getAsString());
+                    //System.out.println(getName());
+                    System.out.println("break 3");
+                } catch (SQLException e) {
+                    System.out.println(e);
+                }
+
+                catch (ClassNotFoundException e) {
                     System.out.println(e);
 
                 }
 
 
-            }
+
         }
 
-
+        }
     }
+
+    public void clearTempDB(){
+        try{
+            Connection conn = new DBConnection().getconnection();
+            PreparedStatement statement = conn.prepareStatement("delete from temp_variables");
+            statement.executeUpdate();
+        }catch(SQLException e){
+            System.out.println(e);
+        }
+    }
+
+//    public void setGotSumID (String id){
+//        this.gotSumID = id;
+//    }
+//
+//    public String getID (){
+//        return gotSumID;
+//    }
+//    public void setGotSumName (String n){
+//        this.gotSumName = n;
+//    }
+
+//    public String getName (){
+//        return gotSumName;
+//    }
+
+
+
 
     private HttpURLConnection getConnection(String urlString) {
         URL url;
