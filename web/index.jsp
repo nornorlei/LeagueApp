@@ -6,8 +6,8 @@
   <body>
   <h1>Welcome Summoner!</h1>
 
-  <input type="button" value="Sign Up" onclick=window.location.href='/signup.jsp';>
-  <input type="button" value="Login" onclick=window.location.href='/login.jsp';>
+  <input type="button" value="Sign Up" onclick=window.location.href='signup.jsp';>
+  <input type="button" value="Login" onclick=window.location.href='login.jsp';>
 
   </body>
 </html>

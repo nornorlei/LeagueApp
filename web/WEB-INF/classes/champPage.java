@@ -2,7 +2,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -53,7 +52,7 @@ public class champPage extends HttpServlet {
                 String formattedList = postList.toString().replace(",","").replace("[","").replace("]","");
                 request.getSession().setAttribute("postList",formattedList);
                 System.out.println(postList);
-                response.sendRedirect("/champPage.jsp");
+                response.sendRedirect("champPage.jsp");
             }
         }catch (SQLException e){
             System.out.println(e);

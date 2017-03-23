@@ -30,7 +30,7 @@ public class Signup extends HttpServlet{
             ResultSet result = statement.executeQuery();
 
             if(result.first()) {
-                resp.sendRedirect("/signup.jsp");
+                resp.sendRedirect("signup.jsp");
             }
             else{
                 statement = conn.prepareStatement("INSERT INTO Users VALUES (?,?,?,?)");
@@ -40,7 +40,7 @@ public class Signup extends HttpServlet{
                 statement.setString(4, (String) session.getAttribute("username"));
                 statement.executeUpdate();
 
-                resp.sendRedirect("/login.jsp");
+                resp.sendRedirect("login.jsp");
             }
         }catch (SQLException e){
             System.out.println(e);

@@ -3,7 +3,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -78,7 +77,7 @@ public class buildPage extends HttpServlet {
                 String formattedList = buildList.toString().replace(",","").replace("[","").replace("]","");
                 request.getSession().setAttribute("buildList",formattedList);
                 System.out.println(buildList);
-                response.sendRedirect("/buildPage.jsp");
+                response.sendRedirect("buildPage.jsp");
             }
 
 

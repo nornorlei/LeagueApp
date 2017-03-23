@@ -12,9 +12,9 @@
     <title>Build Guides for champion</title>
 </head>
 <body>
-<form action="/buildPage" method="POST">
+<form action="buildPage" method="POST">
     <%=request.getSession().getAttribute("postList")%>
-    <input type="button" value="Create Build" onclick=window.location.href='/createPost.jsp';>
+    <input type="button" value="Create Build" onclick=window.location.href='createPost.jsp';>
 
 </form>
 </body>
