@@ -26,6 +26,109 @@ public class APIConnection{
 //    }
 
     //asdasdasdasdadsadssa
+    public void makeRunesRequest(String id , String region) {
+        String url = "https://" + region + ".api.pvp.net/api/lol/".concat(region).concat("/v1.4/summoner/").concat(id).concat("/runes?api_key=").concat(apiKey);
+        System.out.println(url);
+        HttpURLConnection connection = getConnection(url);
+
+        if (connection != null) {
+            Scanner scanner = getConnectionScanner(connection);
+
+            if (scanner != null) {
+                String display = "";
+                while (scanner.hasNextLine()) {
+                    display = display.concat(scanner.nextLine());
+                }
+
+                System.out.println("webpage display: " + display);
+
+                try {
+                    Class.forName("com.google.gson.JsonObject");
+                    Class.forName("com.google.gson.JsonParser");
+                    JsonObject jsonObject = new JsonParser().parse(display).getAsJsonObject();
+                    JsonObject objects = jsonObject.get(id).getAsJsonObject();
+
+                    System.out.println("break 1 ");
+
+
+                    Class.forName("com.mysql.jdbc.Driver");
+                    Connection conn = new DBConnection().getconnection();
+                    PreparedStatement statement = conn.prepareStatement("update temp_runes_masteries set runes = (?) where num = 1");
+                    //statement.setString(1, objects.get("runes").getAsString());    do this eventaully
+                    statement.setString(1,display);
+                    statement.executeUpdate();
+
+                } catch (SQLException e) {
+                    System.out.println(e);
+                }
+
+                catch (ClassNotFoundException e) {
+                    System.out.println(e);
+
+                }
+
+            }
+
+        }
+    }
+
+    public void makeMasteriesRequest(String id , String region) {
+        String url = "https://" + region + ".api.pvp.net/api/lol/".concat(region).concat("/v1.4/summoner/").concat(id).concat("/masteries?api_key=").concat(apiKey);
+        System.out.println(url);
+        HttpURLConnection connection = getConnection(url);
+
+        if (connection != null) {
+            Scanner scanner = getConnectionScanner(connection);
+
+            if (scanner != null) {
+                String display = "";
+                while (scanner.hasNextLine()) {
+                    display = display.concat(scanner.nextLine());
+                }
+
+                System.out.println("webpage display: " + display);
+
+                try {
+                    Class.forName("com.google.gson.JsonObject");
+                    Class.forName("com.google.gson.JsonParser");
+                    JsonObject jsonObject = new JsonParser().parse(display).getAsJsonObject();
+                    JsonObject objects = jsonObject.get(id).getAsJsonObject();
+
+                    System.out.println("break 1 ");
+
+
+                    Class.forName("com.mysql.jdbc.Driver");
+                    Connection conn = new DBConnection().getconnection();
+                    PreparedStatement statement = conn.prepareStatement("insert into temp_runes_masteries values (?,?,?)");
+                    //statement.setString(1, objects.get("masteries").getAsString());    do this eventaully
+                    statement.setString(1,"1");
+                    statement.setString(2,display);
+                    statement.setString(3,"placer");
+
+                    statement.executeUpdate();
+
+                } catch (SQLException e) {
+                    System.out.println(e);
+                }
+
+                catch (ClassNotFoundException e) {
+                    System.out.println(e);
+
+                }
+
+            }
+
+        }
+    }
+    public void clearTempMasteries(){
+        try{
+            Connection conn = new DBConnection().getconnection();
+            PreparedStatement statement = conn.prepareStatement("delete from temp_runes_masteries");
+            statement.executeUpdate();
+        }catch(SQLException e){
+            System.out.println(e);
+        }
+    }
 
     public void makeRequest(String summoner, String region) {
         String url = "https://" + region + ".api.pvp.net/api/lol/".concat(region).concat("/v1.4/summoner/by-name/").concat(summoner).concat("?api_key=").concat(apiKey);
@@ -57,8 +160,9 @@ public class APIConnection{
 
                     Class.forName("com.mysql.jdbc.Driver");
                     Connection conn = new DBConnection().getconnection();
-                    PreparedStatement statement = conn.prepareStatement("insert into temp_variables values (?)");
+                    PreparedStatement statement = conn.prepareStatement("insert into temp_variables values (?,?)");
                     statement.setString(1, objects.get("name").getAsString());
+                    statement.setString(2,objects.get("id").getAsString());
                     statement.executeUpdate();
 
                     System.out.println("breal 2");

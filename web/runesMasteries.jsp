@@ -12,6 +12,10 @@
 </head>
 <body>
 <h1><%=request.getSession().getAttribute("summonerName")%></h1>
+<h2>MASTERIES</h2>
+<p><%=request.getSession().getAttribute("masteryList")%></p>
+<h3>RUNES</h3>
+<p><%=request.getSession().getAttribute("runeList")%></p>
 
 </body>
 </html>

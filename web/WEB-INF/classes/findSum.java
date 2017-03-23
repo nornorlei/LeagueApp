@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class findSum extends HttpServlet {
 
@@ -26,6 +27,9 @@ public class findSum extends HttpServlet {
         APIConnection findSum= new APIConnection();
         findSum.makeRequest(summonerName,region);
 
+        ArrayList<String> masteries = new ArrayList();
+        ArrayList<String> runes = new ArrayList();
+
         System.out.println("break 4");
 
         try{
@@ -33,6 +37,8 @@ public class findSum extends HttpServlet {
             Connection conn = new DBConnection().getconnection();
             String tempCountQuery = "select count(*) from temp_variables";
             Statement statement0 = conn.createStatement();
+
+            Statement statement1 = conn.createStatement();
             ResultSet tempCount = statement0.executeQuery(tempCountQuery);
 
             System.out.println("break 5 ");
@@ -40,15 +46,15 @@ public class findSum extends HttpServlet {
             while (tempCount.next()) {
                 int temp_Count = Integer.parseInt(tempCount.getString("count(*)"));
                 if (temp_Count > 0) {
-                    String query = "select temp from temp_variables limit 1";
+                    String query = "select * from temp_variables limit 1";
                     Statement statement = conn.createStatement();
                     ResultSet summName = statement.executeQuery(query);
 
                     System.out.println("break 5");
 
                     while (summName.next()) {
-                        String sumName = summName.getString("temp");
-
+                        String sumName = summName.getString("name");
+                        String id = summName.getString("id");
                         System.out.println("break 6");
 
 
@@ -73,9 +79,33 @@ public class findSum extends HttpServlet {
                             findSum.clearTempDB();
                             System.out.println("1");
                         }else if ((!sumName.equals(null)) && (!sumName.equals("")) && (!sumName.equals("null")) && stat.equals("runesmasteries")){
-                            response.sendRedirect("/runesMasteries.jsp");
+
+                            findSum.makeMasteriesRequest(id,region);
+                            findSum.makeRunesRequest(id,region);
+                            String tempMasteries = "select * from temp_runes_masteries";
+                            ResultSet mastery = statement0.executeQuery(tempMasteries);
+
+                            while (mastery.next()) {
+
+                                String mast = mastery.getString("masteries");
+                                String r = mastery.getString("runes");
+                                runes.add(0,r);
+                                masteries.add(0,mast);
+
+                            }
+
+
+                            String formattedList2 = runes.toString().replace(",","").replace("[","").replace("]","");
+                            request.getSession().setAttribute("runeList",formattedList2);
+
+                            String formattedList1 = masteries.toString().replace(",","").replace("[","").replace("]","");
+                            request.getSession().setAttribute("masteryList",formattedList1);
+
+
                             findSum.clearTempDB();
-                            System.out.println("1");
+                            findSum.clearTempMasteries();
+                            response.sendRedirect("/runesMasteries.jsp");
+
                         }else if ((!sumName.equals(null)) && (!sumName.equals("")) && (!sumName.equals("null")) && stat.equals("championmasteries")){
                             response.sendRedirect("/championMasteries.jsp");
                             findSum.clearTempDB();
