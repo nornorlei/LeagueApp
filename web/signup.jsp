@@ -7,7 +7,7 @@
 <body>
 <h1>Sign Up</h1>
 <p>Type in a summoner name in order to get details regarding the user.</p>
-<form action="/Signup" method="POST">
+<form action="Signup" method="POST">
     <input type="text" name="username" placeholder="Username">
     <input type="password" name="password" placeholder="Password">
     <input type="email" name="email" placeholder="Email">
