@@ -21,8 +21,7 @@ public class findSum extends HttpServlet {
         String summonerName = request.getParameter("summonerName");
         String region =  request.getParameter("region");
         String stat = request.getParameter("stat");
-
-
+//sdfsdfsdfsdgfdfsgdsfgds
         request.getSession().setAttribute("summonerName", summonerName);
 
         APIConnection findSum= new APIConnection();
@@ -60,23 +59,23 @@ public class findSum extends HttpServlet {
 
 
                         if (sumName.equals(null)){
-                            response.sendRedirect("findSum.jsp");
+                            response.sendRedirect("/findSum.jsp");
                             findSum.clearTempDB();
                             System.out.println("1");
                         } else if (sumName.equals("")){
-                            response.sendRedirect("findSum.jsp");
+                            response.sendRedirect("/findSum.jsp");
                             findSum.clearTempDB();
                             System.out.println("1");
                         } else if (sumName.equals("null")){
-                            response.sendRedirect("findSum.jsp");
+                            response.sendRedirect("/findSum.jsp");
                             findSum.clearTempDB();
                             System.out.println("1");
                         } else if ((!sumName.equals(null)) && (!sumName.equals("")) && (!sumName.equals("null")) && stat.equals("matchhistory")){
-                            response.sendRedirect("matchhistory.jsp");
+                            response.sendRedirect("/matchhistory.jsp");
                             findSum.clearTempDB();
                             System.out.println("1");
                         } else if ((!sumName.equals(null)) && (!sumName.equals("")) && (!sumName.equals("null")) && stat.equals("rankedstats")){
-                            response.sendRedirect("rankedStats.jsp");
+                            response.sendRedirect("/rankedStats.jsp");
                             findSum.clearTempDB();
                             System.out.println("1");
                         }else if ((!sumName.equals(null)) && (!sumName.equals("")) && (!sumName.equals("null")) && stat.equals("runesmasteries")){
@@ -105,10 +104,10 @@ public class findSum extends HttpServlet {
 
                             findSum.clearTempDB();
                             findSum.clearTempMasteries();
-                            response.sendRedirect("runesMasteries.jsp");
+                            response.sendRedirect("/runesMasteries.jsp");
 
                         }else if ((!sumName.equals(null)) && (!sumName.equals("")) && (!sumName.equals("null")) && stat.equals("championmasteries")){
-                            response.sendRedirect("championMasteries.jsp");
+                            response.sendRedirect("/championMasteries.jsp");
                             findSum.clearTempDB();
                             System.out.println("1");
                         }
@@ -118,7 +117,7 @@ public class findSum extends HttpServlet {
                 }else{
 
                     System.out.println("break 7 ");
-                    response.sendRedirect("findSum.jsp");
+                    response.sendRedirect("/findSum.jsp");
                 }
             }
         }catch(SQLException e){

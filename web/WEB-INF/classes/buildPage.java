@@ -77,7 +77,7 @@ public class buildPage extends HttpServlet {
                 String formattedList = buildList.toString().replace(",","").replace("[","").replace("]","");
                 request.getSession().setAttribute("buildList",formattedList);
                 System.out.println(buildList);
-                response.sendRedirect("buildPage.jsp");
+                response.sendRedirect("/buildPage.jsp");
             }
 
 

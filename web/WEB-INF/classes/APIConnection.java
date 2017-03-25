@@ -48,9 +48,6 @@ public class APIConnection{
                     JsonObject jsonObject = new JsonParser().parse(display).getAsJsonObject();
                     JsonObject objects = jsonObject.get(id).getAsJsonObject();
 
-                    System.out.println("break 1 ");
-
-
                     Class.forName("com.mysql.jdbc.Driver");
                     Connection conn = new DBConnection().getconnection();
                     PreparedStatement statement = conn.prepareStatement("update temp_runes_masteries set runes = (?) where num = 1");

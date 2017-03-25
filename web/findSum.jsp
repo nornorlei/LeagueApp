@@ -13,7 +13,7 @@
 <body>
 <h1>Find Summoner</h1>
 
-<form action="findSum" method="POST">
+<form action="/findSum" method="POST">
 <p>Please enter a summoner name and respective region</p>
     <table>
         <tr>
@@ -38,7 +38,7 @@
 
 <input type="reset" value="Clear" name="clear">
 <input type="submit" value="Search" name="submit">
-<input type="button" value="Return to Profile" onclick=window.location.href='Profile';>
+<input type="button" value="Return to Profile" onclick=window.location.href='/Profile';>
 
 </form>
 

@@ -12,7 +12,7 @@
 </head>
 <body>
     <h1>Create your build</h1>
-    <form action="createBuild" method="POST" >
+    <form action="/createBuild" method="POST" >
         <select name="champ"  size="10"  required>
             <option value="aatrox">Aatrox</option>
             <option value="ahri">Ahri</option>
@@ -129,7 +129,7 @@
         <input type="text" name="masteries" placeholder="Masteries">
 
         <input type="submit" value="Submit" name="submit">
-        <input type="button" value="Return to Profile" onclick=window.location.href='Profile';>
+        <input type="button" value="Return to Profile" onclick=window.location.href='/Profile';>
 
 
     </form>

@@ -12,7 +12,7 @@
 </head>
 <body>
 <h1>Please select a champion</h1>
-<form action="champPage" method="POST">
+<form action="/champPage" method="POST">
     <select name="champ"  size="10"  required>
     <option value="aatrox">Aatrox</option>
     <option value="ahri">Ahri</option>
@@ -113,8 +113,8 @@
     </select>
 
     <input type="submit" value="Submit" name="submit">
-    <input type="button" value="Return to Profile" onclick=window.location.href='Profile';>
-    <input type="button" value="Create build" onclick=window.location.href='createPost.jsp';>
+    <input type="button" value="Return to Profile" onclick=window.location.href='/Profile';>
+    <input type="button" value="Create build" onclick=window.location.href='/createPost.jsp';>
 </form>
 </body>
 </html>

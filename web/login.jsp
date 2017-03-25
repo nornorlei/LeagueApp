@@ -5,7 +5,7 @@
         <title>Login</title>
     </head>
 
-<form name="asd" action="login" method="POST">
+<form name="asd" action="/login" method="POST">
 
     <h1>Please login</h1>
     <p>Enter user name and password</p>
@@ -22,7 +22,7 @@
 
 <input type="reset" value="Clear" name="clear">
 <input type="submit" value="Login" name="submit">
-<input type="button" value="Signup" onclick=window.location.href='signup.jsp';>
+<input type="button" value="Signup" onclick=window.location.href='/signup.jsp';>
 
 </form>
 </body>
