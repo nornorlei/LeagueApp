@@ -11,6 +11,6 @@
     <title>Recently Searched</title>
 </head>
 <body>
-    pull the data from the recentSearch.java
+pull the data from the recentSearch.java
 </body>
 </html>

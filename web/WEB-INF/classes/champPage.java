@@ -2,6 +2,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -20,13 +21,14 @@ public class champPage extends HttpServlet {
         ArrayList<String> postList = new <String> ArrayList();
         postList.add(0,"");
         PrintWriter out = response.getWriter();
-
+        APIConnection api = new APIConnection();
+        api.fillChamps();
 
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = new DBConnection().getconnection();
-            String query1 = "select champ_id from ChampionList where champ_name='" + champ + "'";
+            String query1 = "select champID from Champions where name='" + champ + "'";
             int count = 1;
             Statement statement = conn.createStatement();
             ResultSet champ_id = statement.executeQuery(query1);
@@ -36,13 +38,13 @@ public class champPage extends HttpServlet {
                 System.out.println(id);
 
 
-                String query2 = "select* from posts where champ_id=" + id;
+                String query2 = "select* from Builds where champ_id=" + id;
                 ResultSet posts = statement.executeQuery(query2);
 
                 while(posts.next()){
                     String postName = posts.getString("name");
-                    String postID = posts.getString("post_id");
-                    String champID = posts.getString("champ_id");
+                    String postID = posts.getString("buildID");
+                    String champID = posts.getString("champID");
 
 
                     postList.add(count, "<p>" + postName + "<input type=\"submit\" value=\"" + postID +"\" name=\"postID\" />" + "</p>");
@@ -52,12 +54,16 @@ public class champPage extends HttpServlet {
                 String formattedList = postList.toString().replace(",","").replace("[","").replace("]","");
                 request.getSession().setAttribute("postList",formattedList);
                 System.out.println(postList);
-                response.sendRedirect("/champPage.jsp");
+                response.sendRedirect("/champPage");
             }
         }catch (SQLException e){
             System.out.println(e);
         } catch (ClassNotFoundException e) {
             System.out.println(e);
         }
+    }
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("champPage.jsp").forward(req, resp);
     }
 }

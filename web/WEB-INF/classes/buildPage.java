@@ -71,13 +71,11 @@ public class buildPage extends HttpServlet {
 
                     System.out.println(name + " " +build_id + " " + postID + " " + likes + " " + dislikes + " " + ss1 + " " + ss2+ " "+marks + " "+seals + " "+ glyphs+ " "+ quints+ " "+ i1+ " "+ i2+ " "+ i3+ " "+ i4+ " "+i5 + " "+i6 + " "+ ability_sequence + " "+ masteries);
 
-
-
                 }
                 String formattedList = buildList.toString().replace(",","").replace("[","").replace("]","");
                 request.getSession().setAttribute("buildList",formattedList);
                 System.out.println(buildList);
-                response.sendRedirect("/buildPage.jsp");
+                response.sendRedirect("/buildPage");
             }
 
 
@@ -89,5 +87,9 @@ public class buildPage extends HttpServlet {
         }
 
 
+    }
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("buildPage.jsp").forward(req, resp);
     }
 }

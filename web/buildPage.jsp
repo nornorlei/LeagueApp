@@ -13,7 +13,7 @@
 <body>
 <%=request.getSession().getAttribute("buildList")%>
 <input type="button" value="Return to Profile" onclick=window.location.href='/Profile';>
-<input type="button" value="Back to build list" onclick=window.location.href='/champPage.jsp';>
-<input type="button" value="Look for build for another champ" onclick=window.location.href='/champs.jsp';>
+<input type="button" value="Back to build list" onclick=window.location.href='/champPage';>
+<input type="button" value="Look for build for another champ" onclick=window.location.href='/champs';>
 </body>
 </html>
