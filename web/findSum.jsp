@@ -14,7 +14,7 @@
 <h1>Find Summoner</h1>
 
 <form action="/findSum" method="POST">
-<p>Please enter a summoner name and respective region</p>
+    <p>Please enter a summoner name and respective region</p>
     <table>
         <tr>
             <th>Summoner Name</th>
@@ -26,19 +26,19 @@
         </tr>
     </table>
 
-        <select name="stat"  size="4"  required>
-            <option value="matchhistory">Match History</option>
-            <option value="rankedstats">Ranked Stats</option>
-            <option value="runesmasteries">Runes/Masteries</option>
-            <option value="championmasteries">Champion Masteries</option>
+    <select name="stat"  size="4"  required>
+        <option value="matchhistory">Match History</option>
+        <option value="rankedstats">Ranked Stats</option>
+        <option value="runesmasteries">Runes/Masteries</option>
+        <option value="championmasteries">Champion Masteries</option>
 
-        </select>
+    </select>
 
 
 
-<input type="reset" value="Clear" name="clear">
-<input type="submit" value="Search" name="submit">
-<input type="button" value="Return to Profile" onclick=window.location.href='/Profile';>
+    <input type="reset" value="Clear" name="clear">
+    <input type="submit" value="Search" name="submit">
+    <input type="button" value="Return to Profile" onclick=window.location.href='/Profile';>
 
 </form>
 

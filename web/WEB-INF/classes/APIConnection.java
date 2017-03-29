@@ -1,230 +1,103 @@
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.sql.*;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class APIConnection{
 
-    private String apiKey = "RGAPI-654f4896-0393-46cc-9043-9e078860ed31";
-    //private String region = "na";
-    //private String summoner = "nornorlei";
-    private String gotSumName;
-    //private String gotSumID;
+    private String api = "RGAPI-52269a2a-0944-4223-bbb2-39dd1d381a12";
 
+    public void findSummoner(String summoner, String region){
+        String s = "https://" + region.toLowerCase() + ".api.riotgames.com/api/lol/" + region.toUpperCase() +"/v1.4/summoner/by-name/"+ summoner + "?api_key=" + api;
+        HttpURLConnection connection = getConnection(s);
+        Scanner scanner = null;
 
-//    public static void main(String[] args) {
-//
-//        new APIConnection().makeRequest("nornorlei","na");
-//        APIConnection findSum = new APIConnection();
-//        findSum.makeRequest("nornorlei","na");
-//
-//    }
-
-    //asdasdasdasdadsadssa
-    public void makeRunesRequest(String id , String region) {
-        String url = "https://" + region + ".api.pvp.net/api/lol/".concat(region).concat("/v1.4/summoner/").concat(id).concat("/runes?api_key=").concat(apiKey);
-        System.out.println(url);
-        HttpURLConnection connection = getConnection(url);
-
-        if (connection != null) {
-            Scanner scanner = getConnectionScanner(connection);
-
-            if (scanner != null) {
-                String display = "";
-                while (scanner.hasNextLine()) {
-                    display = display.concat(scanner.nextLine());
-                }
-
-                System.out.println("webpage display: " + display);
-
-                try {
-                    Class.forName("com.google.gson.JsonObject");
-                    Class.forName("com.google.gson.JsonParser");
-                    JsonObject jsonObject = new JsonParser().parse(display).getAsJsonObject();
-                    JsonObject objects = jsonObject.get(id).getAsJsonObject();
-
-                    Class.forName("com.mysql.jdbc.Driver");
-                    Connection conn = new DBConnection().getconnection();
-                    PreparedStatement statement = conn.prepareStatement("update temp_runes_masteries set runes = (?) where num = 1");
-                    //statement.setString(1, objects.get("runes").getAsString());    do this eventaully
-                    statement.setString(1,display);
-                    statement.executeUpdate();
-
-                } catch (SQLException e) {
-                    System.out.println(e);
-                }
-
-                catch (ClassNotFoundException e) {
-                    System.out.println(e);
-
-                }
-
+        if(connection != null)
+            scanner = getConnectionScanner(connection);
+        if(scanner != null){
+            String display = "";
+            while(scanner.hasNextLine()) {
+                display = display.concat(scanner.nextLine());
             }
-
+            System.out.println(display);
         }
     }
 
-    public void makeMasteriesRequest(String id , String region) {
-        String url = "https://" + region + ".api.pvp.net/api/lol/".concat(region).concat("/v1.4/summoner/").concat(id).concat("/masteries?api_key=").concat(apiKey);
-        System.out.println(url);
-        HttpURLConnection connection = getConnection(url);
-
-        if (connection != null) {
-            Scanner scanner = getConnectionScanner(connection);
-
-            if (scanner != null) {
-                String display = "";
-                while (scanner.hasNextLine()) {
-                    display = display.concat(scanner.nextLine());
-                }
-
-                System.out.println("webpage display: " + display);
-
-                try {
-                    Class.forName("com.google.gson.JsonObject");
-                    Class.forName("com.google.gson.JsonParser");
-                    JsonObject jsonObject = new JsonParser().parse(display).getAsJsonObject();
-                    JsonObject objects = jsonObject.get(id).getAsJsonObject();
-
-                    System.out.println("break 1 ");
-
-
-                    Class.forName("com.mysql.jdbc.Driver");
-                    Connection conn = new DBConnection().getconnection();
-                    PreparedStatement statement = conn.prepareStatement("insert into temp_runes_masteries values (?,?,?)");
-                    //statement.setString(1, objects.get("masteries").getAsString());    do this eventaully
-                    statement.setString(1,"1");
-                    statement.setString(2,display);
-                    statement.setString(3,"placer");
-
-                    statement.executeUpdate();
-
-                } catch (SQLException e) {
-                    System.out.println(e);
-                }
-
-                catch (ClassNotFoundException e) {
-                    System.out.println(e);
-
-                }
-
+    public void fillChamps(){
+        String s = "https://global.api.riotgames.com/api/lol/static-data/NA/v1.2/champion?champData=image&api_key=RGAPI-52269a2a-0944-4223-bbb2-39dd1d381a12";
+        HttpURLConnection connection = getConnection(s);
+        Scanner scanner = null;
+        if(connection != null)
+            scanner = getConnectionScanner(connection);
+        if(scanner != null){
+            String display = "";
+            while(scanner.hasNextLine()) {
+                display = display.concat(scanner.nextLine());
             }
+            try{
+                String [] champs = {"Aatrox", "Ahri", "Akali", "Alistar", "Amumu", "Anivia", "Annie", "Ashe","AurelionSol","Azir","Bard", "Blitzcrank", "Brand", "Braum", "Caitlyn", "Camille", "Cassiopeia", "Chogath", "Corki", "Darius", "Diana", "DrMundo", "Draven", "Ekko", "Elise", "Evelynn", "Ezreal", "Fiddlesticks", "Fiora", "Fizz", "Galio", "Gangplank", "Garen", "Gnar", "Gragas", "Graves", "Hecarim", "Heimerdinger", "Illaoi", "Irelia", "Ivern", "Janna", "JarvanIV", "Jax", "Jayce",  "Jhin", "Jinx", "Kalista", "Karma", "Karthus", "Kassadin", "Katarina", "Kayle", "Kennen", "Khazix", "Kindred", "Kled", "KogMaw", "Leblanc", "LeeSin", "Leona", "Lissandra", "Lucian", "Lulu", "Lux", "Malphite", "Malzahar", "Maokai", "MasterYi", "MissFortune", "Mordekaiser", "Morgana", "Nami", "Nasus", "Nautilus", "Nidalee", "Nocturne", "Nunu", "Olaf", "Orianna", "Pantheon", "Poppy", "Quinn", "Rammus", "RekSai", "Renekton", "Rengar", "Riven", "Rumble", "Ryze", "Sejuani", "Shaco", "Shen", "Shyvana", "Singed", "Sion", "Sivir", "Skarner", "Sona", "Soraka", "Swain", "Syndra", "TahmKench", "Taliyah", "Talon", "Taric", "Teemo", "Thresh", "Tristana", "Trundle", "Tryndamere", "TwistedFate", "Twitch", "Udyr", "Urgot", "Varus", "Vayne", "Veigar", "Velkoz", "Vi", "Viktor", "Vladimir", "Volibear", "Warwick", "MonkeyKing", "Xerath", "XinZhao", "Yasuo", "Yorick", "Zac", "Zed", "Ziggs", "Zilean", "Zyra"};
+                System.out.println(champs.length + "length");
+                Class.forName("com.google.gson.JsonObject");
+                Class.forName("com.google.gson.JsonParser");
+                JSONObject json = new JSONObject(display);
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection conn = new DBConnection().getconnection();
+                JSONObject data = json.getJSONObject("data");
+                //Connection conn = new DBConnection().getconnection();
+                for (String champ : champs) {
+                    JSONObject champion = data.getJSONObject(champ);
+                    String name = champion.getString("name").toString();
+                    String title = champion.getString("title").toString();
+                    JSONObject imageData = champion.getJSONObject("image");
+                    String image = imageData.getString("full").toString();
+                    int id = champion.getInt("id");
+                    // System.out.println("name " + name + " " + title + " " + id + " " + image);
+                    String query = "select * from Champions where name ='" + name + "'";
+                    Statement statement = conn.createStatement();
+                    ResultSet champResults = statement.executeQuery(query);
 
-        }
-    }
-    public void clearTempMasteries(){
-        try{
-            Connection conn = new DBConnection().getconnection();
-            PreparedStatement statement = conn.prepareStatement("delete from temp_runes_masteries");
-            statement.executeUpdate();
-        }catch(SQLException e){
-            System.out.println(e);
-        }
-    }
-
-    public void makeRequest(String summoner, String region) {
-        String url = "https://" + region + ".api.pvp.net/api/lol/".concat(region).concat("/v1.4/summoner/by-name/").concat(summoner).concat("?api_key=").concat(apiKey);
-        System.out.println(url);
-        HttpURLConnection connection = getConnection(url);
-
-        if (connection != null) {
-            Scanner scanner = getConnectionScanner(connection);
-
-            if (scanner != null) {
-                String display = "";
-                while (scanner.hasNextLine()) {
-                    display = display.concat(scanner.nextLine());
+                    if(champResults.next()){
+                    }
+                    else{
+                        if(name.contains("'")){
+                            name.replace("'", "\'");
+                            System.out.println(name);
+                        }else if(title.contains("'")){
+                            title.replace("'", "\'");
+                        }
+                        PreparedStatement statementChamp = null;
+                        statementChamp = conn.prepareStatement("insert into Champions values (?,?,?,?)");
+                        statementChamp.setInt(1, id);
+                        statementChamp.setString(2, name);
+                        statementChamp.setString(3, title);
+                        statementChamp.setString(4, image);
+                        statementChamp.execute();
+                    }
                 }
-
-                System.out.println("webpage display: " + display);
-
-                //getting individual elements
-
-                try {
-                    System.out.println("breka 0");
-                    Class.forName("com.google.gson.JsonObject");
-                    Class.forName("com.google.gson.JsonParser");
-                    JsonObject jsonObject = new JsonParser().parse(display).getAsJsonObject();
-                    JsonObject objects = jsonObject.get(summoner).getAsJsonObject();
-
-                    System.out.println("break 1 ");
-
-
-                    Class.forName("com.mysql.jdbc.Driver");
-                    Connection conn = new DBConnection().getconnection();
-                    PreparedStatement statement = conn.prepareStatement("insert into temp_variables values (?,?)");
-                    statement.setString(1, objects.get("name").getAsString());
-                    statement.setString(2,objects.get("id").getAsString());
-                    statement.executeUpdate();
-
-                    System.out.println("breal 2");
-
-//                    System.out.println(objects.get("id").getAsString());
-//
-                    System.out.println("try " + objects.get("name").getAsString());
-//                    System.out.println(objects.get("summonerLevel").getAsString());
-
-                    //setGotSumID(objects.get("id").getAsString());
-                    //System.out.println(getID());
-                    //setGotSumName(objects.get("name").getAsString());
-                    //System.out.println(getName());
-                    System.out.println("break 3");
-                } catch (SQLException e) {
-                    System.out.println(e);
-                }
-
-                catch (ClassNotFoundException e) {
-                    System.out.println(e);
-
-                }
-
-
-
-        }
-
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public void clearTempDB(){
-        try{
-            Connection conn = new DBConnection().getconnection();
-            PreparedStatement statement = conn.prepareStatement("delete from temp_variables");
-            statement.executeUpdate();
-        }catch(SQLException e){
-            System.out.println(e);
-        }
-    }
-
-//    public void setGotSumID (String id){
-//        this.gotSumID = id;
-//    }
-//
-//    public String getID (){
-//        return gotSumID;
-//    }
-//    public void setGotSumName (String n){
-//        this.gotSumName = n;
-//    }
-
-//    public String getName (){
-//        return gotSumName;
-//    }
-
-
-
-
-    private HttpURLConnection getConnection(String urlString) {
-        URL url;
+    public HttpURLConnection getConnection(String string){
+        URL url = null;
         HttpURLConnection connection = null;
         try {
-            url = new URL(urlString);
+            url = new URL(string);
         } catch (MalformedURLException e) {
-            url = null;
             System.out.println("Invalid URL");
         }
 
@@ -251,5 +124,5 @@ public class APIConnection{
 
         return scanner;
     }
-
 }
+

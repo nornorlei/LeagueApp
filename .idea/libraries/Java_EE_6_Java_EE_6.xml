@@ -12,6 +12,7 @@
       <root url="jar://$PROJECT_DIR$/lib/javax.persistence.jar!/" />
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/f1bc476cc167b18e66c297df599b2377131a8947/gson-2.6.2.jar!/" />
       <root url="jar://$USER_HOME$/Downloads/java-json.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/gson-2.6.2.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
