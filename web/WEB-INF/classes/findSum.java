@@ -20,6 +20,7 @@ public class findSum extends HttpServlet {
         String summonerName = request.getParameter("summonerName");
         String region =  request.getParameter("region");
         String stat = request.getParameter("stat");
+        request.getSession().setAttribute("searchSummoner", summonerName );
 //sdfsdfsdfsdgfdfsgdsfgds
         request.getSession().setAttribute("summonerName", summonerName);
 
