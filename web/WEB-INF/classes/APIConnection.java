@@ -63,9 +63,8 @@ public class APIConnection{
     }
 
     public JSONArray getChampMastery (String summonerID, String region){
-         String s = "https://" + region + ".api.riotgames.com/championmastery/location/" + region + "/player/" + summonerID + " /champions?api_key=RGAPI-654f4896-0393-46cc-9043-9e078860ed31";
-         String ss = "https://" + region + ".api.riotgames.com/championmastery/location/" + region + "1/player/" + summonerID + " /champions?api_key=RGAPI-654f4896-0393-46cc-9043-9e078860ed31";
-        //String sss = "https://na.api.riotgames.com/championmastery/location/NA1/player/23509933/champions?api_key=RGAPI-654f4896-0393-46cc-9043-9e078860ed31";
+         String s = "https://" + region + ".api.riotgames.com/championmastery/location/" + region + "/player/" + summonerID + "/champions?api_key=RGAPI-654f4896-0393-46cc-9043-9e078860ed31";
+         String ss = "https://" + region + ".api.riotgames.com/championmastery/location/" + region + "1/player/" + summonerID + "/champions?api_key=RGAPI-654f4896-0393-46cc-9043-9e078860ed31";
          JSONArray array = null;
          if ((region.equalsIgnoreCase("kr")) || (region.equalsIgnoreCase("ru"))) {
              HttpURLConnection connection = getConnection(s);
