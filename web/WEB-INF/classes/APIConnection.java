@@ -4,12 +4,13 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import jdk.nashorn.internal.runtime.JSONListAdapter;
+import org.json.*;
 
 import java.sql.*;
 import java.util.Objects;
 import java.util.Scanner;
+
 
 public class APIConnection{
 
@@ -30,6 +31,95 @@ public class APIConnection{
             System.out.println(display);
         }
     }
+    public String getSummonerID (String name, String region) {
+        String s = "https://" + region + ".api.riotgames.com/api/lol/" + region.toUpperCase() + "/v1.4/summoner/by-name/" + name + "?api_key=RGAPI-654f4896-0393-46cc-9043-9e078860ed31";
+
+        String summonerID = null;
+        HttpURLConnection connection = getConnection(s);
+        Scanner scanner = null;
+        if (connection != null){
+            scanner = getConnectionScanner(connection);
+            if (scanner != null) {
+                String display = "";
+                while (scanner.hasNextLine()) {
+                    display = display.concat(scanner.nextLine());
+                }
+                try {
+                    JSONObject json = new JSONObject(display);
+                    JSONObject sum = json.getJSONObject(name);
+                    Integer id = sum.getInt("id");
+                    System.out.println(json);
+                    System.out.println(sum);
+                    System.out.println(id);
+
+                    summonerID = id.toString();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+        return summonerID;
+    }
+
+    public JSONArray getChampMastery (String summonerID, String region){
+         String s = "https://" + region + ".api.riotgames.com/championmastery/location/" + region + "/player/" + summonerID + " /champions?api_key=RGAPI-654f4896-0393-46cc-9043-9e078860ed31";
+         String ss = "https://" + region + ".api.riotgames.com/championmastery/location/" + region + "1/player/" + summonerID + " /champions?api_key=RGAPI-654f4896-0393-46cc-9043-9e078860ed31";
+        //String sss = "https://na.api.riotgames.com/championmastery/location/NA1/player/23509933/champions?api_key=RGAPI-654f4896-0393-46cc-9043-9e078860ed31";
+         JSONArray array = null;
+         if ((region.equalsIgnoreCase("kr")) || (region.equalsIgnoreCase("ru"))) {
+             HttpURLConnection connection = getConnection(s);
+             Scanner scanner = null;
+             if (connection != null) {
+                 scanner = getConnectionScanner(connection);
+                 if (scanner != null) {
+                     String display = "";
+                     while (scanner.hasNextLine()) {
+                         display = display.concat(scanner.nextLine());
+                     }
+                     try {
+                         array = new JSONArray(display);
+                         System.out.println(array);
+                     } catch (JSONException e) {
+                         e.printStackTrace();
+                     }
+
+                 }
+             }
+
+         }else{
+             HttpURLConnection connection = getConnection(ss);
+             Scanner scanner = null;
+             if (connection != null) {
+                 scanner = getConnectionScanner(connection);
+                 if (scanner != null) {
+                     String display = "";
+                     while (scanner.hasNextLine()) {
+                         display = display.concat(scanner.nextLine());
+                     }
+                     try {
+                         array = new JSONArray(display);
+                         System.out.println(array);
+                     } catch (JSONException e) {
+                         e.printStackTrace();
+                     }
+
+                 }
+             }
+
+         }
+             return array;
+
+
+    }
+    public static void main(String [] args) {
+        APIConnection api = new APIConnection();
+        System.out.println(api.getChampMastery("1135567","kr"));
+    }
+
+
+
+
 
     public void fillChamps(){
         String s = "https://global.api.riotgames.com/api/lol/static-data/NA/v1.2/champion?champData=image&api_key=RGAPI-52269a2a-0944-4223-bbb2-39dd1d381a12";
@@ -45,8 +135,6 @@ public class APIConnection{
             try{
                 String [] champs = {"Aatrox", "Ahri", "Akali", "Alistar", "Amumu", "Anivia", "Annie", "Ashe","AurelionSol","Azir","Bard", "Blitzcrank", "Brand", "Braum", "Caitlyn", "Camille", "Cassiopeia", "Chogath", "Corki", "Darius", "Diana", "DrMundo", "Draven", "Ekko", "Elise", "Evelynn", "Ezreal", "Fiddlesticks", "Fiora", "Fizz", "Galio", "Gangplank", "Garen", "Gnar", "Gragas", "Graves", "Hecarim", "Heimerdinger", "Illaoi", "Irelia", "Ivern", "Janna", "JarvanIV", "Jax", "Jayce",  "Jhin", "Jinx", "Kalista", "Karma", "Karthus", "Kassadin", "Katarina", "Kayle", "Kennen", "Khazix", "Kindred", "Kled", "KogMaw", "Leblanc", "LeeSin", "Leona", "Lissandra", "Lucian", "Lulu", "Lux", "Malphite", "Malzahar", "Maokai", "MasterYi", "MissFortune", "Mordekaiser", "Morgana", "Nami", "Nasus", "Nautilus", "Nidalee", "Nocturne", "Nunu", "Olaf", "Orianna", "Pantheon", "Poppy", "Quinn", "Rammus", "RekSai", "Renekton", "Rengar", "Riven", "Rumble", "Ryze", "Sejuani", "Shaco", "Shen", "Shyvana", "Singed", "Sion", "Sivir", "Skarner", "Sona", "Soraka", "Swain", "Syndra", "TahmKench", "Taliyah", "Talon", "Taric", "Teemo", "Thresh", "Tristana", "Trundle", "Tryndamere", "TwistedFate", "Twitch", "Udyr", "Urgot", "Varus", "Vayne", "Veigar", "Velkoz", "Vi", "Viktor", "Vladimir", "Volibear", "Warwick", "MonkeyKing", "Xerath", "XinZhao", "Yasuo", "Yorick", "Zac", "Zed", "Ziggs", "Zilean", "Zyra"};
                 System.out.println(champs.length + "length");
-                Class.forName("com.google.gson.JsonObject");
-                Class.forName("com.google.gson.JsonParser");
                 JSONObject json = new JSONObject(display);
                 Class.forName("com.mysql.jdbc.Driver");
                 Connection conn = new DBConnection().getconnection();

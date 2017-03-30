@@ -19,10 +19,7 @@ public class ChampionMasteries extends HttpServlet{
     }
 //s
         private String apiKey = "RGAPI-654f4896-0393-46cc-9043-9e078860ed31";
-        //private String region = "na";
-        //private String summoner = "nornorlei";
         private String gotSumName;
-        //private String gotSumID;
 
 
 
