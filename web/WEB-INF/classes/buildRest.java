@@ -21,18 +21,18 @@ public class buildRest extends HttpServlet {
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = new DBConnection().getconnection();
             Statement statement = conn.createStatement();
-            String query = "select * from Builds where build_id=" + id;
+            String query = "select * from Builds where buildID=" + id;
 
             ResultSet post_name = statement.executeQuery(query);
             if(post_name.next()) {
-                String ss1 = post_name.getString("ss1");
-                String ss2 = post_name.getString("ss1");
-                String marks = post_name.getString("marks");
-                String sequence = post_name.getString("ability_sequence");
+                String name = post_name.getString("name");
+                int likes = post_name.getInt("likes");
+                int dislikes = post_name.getInt("likes");
+                String sequence = post_name.getString("abilities");
 
-                object.addProperty("Summoner Spell 1", ss1);
-                object.addProperty("Summoner Spell 2", ss2);
-                object.addProperty("Marks", marks);
+                object.addProperty("likes", likes);
+                object.addProperty("dislikes", dislikes);
+                object.addProperty("name", name);
                 object.addProperty("Sequence", sequence);
 
                 String results = object.toString();
@@ -43,11 +43,11 @@ public class buildRest extends HttpServlet {
                 writer.flush();
             }else{
 
-                String query1 = "select build_id from Builds";
+                String query1 = "select buildID from Builds";
                 ResultSet post_name1 = statement.executeQuery(query1);
 
                 while(post_name1.next()) {
-                    array.add(post_name1.getInt("build_id"));
+                    array.add(post_name1.getInt("buildID"));
                 }
                 String results = array.toString();
                 resp.setContentType("application/json");
