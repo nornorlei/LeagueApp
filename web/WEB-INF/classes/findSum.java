@@ -1,3 +1,5 @@
+import org.json.JSONObject;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -7,10 +9,13 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Set;
 
 public class findSum extends HttpServlet {
 
-
+    
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -20,71 +25,58 @@ public class findSum extends HttpServlet {
         String summonerName = request.getParameter("summonerName");
         String region =  request.getParameter("region");
         String stat = request.getParameter("stat");
-        request.getSession().setAttribute("searchSummoner", summonerName );
-        request.getSession().setAttribute("summonerRegion",region);
-//sdfsdfsdfsdgfdfsgdsfgds
+
         request.getSession().setAttribute("summonerName", summonerName);
 
         APIConnection findSum= new APIConnection();
-        findSum.findSummoner(summonerName,region);
+       // findSum.findSummoner(summonerName,region);
 
         System.out.println("break 4");
 
         try{
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = new DBConnection().getconnection();
-            String tempCountQuery = "select count(*) from temp_variables";
-            Statement statement0 = conn.createStatement();
-            ResultSet tempCount = statement0.executeQuery(tempCountQuery);
 
             System.out.println("break 5 ");
 
-            while (tempCount.next()) {
-                int temp_Count = Integer.parseInt(tempCount.getString("count(*)"));
-                if (temp_Count > 0) {
-                    String query = "select temp from temp_variables limit 1";
-                    Statement statement = conn.createStatement();
-                    ResultSet summName = statement.executeQuery(query);
-
-                    System.out.println("break 5");
-
-                    while (summName.next()) {
-                        String sumName = summName.getString("temp");
-
-                        System.out.println("break 6");
-
-
-                        if (sumName.equals(null)){
+                        if (summonerName.equals(null)){
                             response.sendRedirect("/findSum");
                             System.out.println("1");
-                        } else if (sumName.equals("")){
+                        } else if (summonerName.equals("")){
                             response.sendRedirect("/findSum");
                             System.out.println("1");
-                        } else if (sumName.equals("null")){
+                        } else if (summonerName.equals("null")){
                             response.sendRedirect("/findSum");
                             System.out.println("1");
-                        } else if ((!sumName.equals(null)) && (!sumName.equals("")) && (!sumName.equals("null")) && stat.equals("matchhistory")){
-                            response.sendRedirect("/matchhistory");
-                            System.out.println("1");
-                        } else if ((!sumName.equals(null)) && (!sumName.equals("")) && (!sumName.equals("null")) && stat.equals("rankedstats")){
-                            response.sendRedirect("/rankedStats");
-                            System.out.println("1");
-                        }else if ((!sumName.equals(null)) && (!sumName.equals("")) && (!sumName.equals("null")) && stat.equals("runesmasteries")){
-                            response.sendRedirect("/runesMasteries");
-                            System.out.println("1");
-                        }else if ((!sumName.equals(null)) && (!sumName.equals("")) && (!sumName.equals("null")) && stat.equals("championmasteries")){
-                            response.sendRedirect("/championMasteries");
-                            System.out.println("1");
+                        }else if ((!summonerName.equals(null)) && (!summonerName.equals("")) && (!summonerName.equals("null")) && !region.equals(null) && stat.equals("runes")){
+                            APIConnection api = new APIConnection();
+                            Map<String, Object> map = api.findSummoner(summonerName, region);
+                            ArrayList<Map> runes = api.summonerRunes((int)map.get("id"), region);
+                            Set runeSet;
+                            //System.out.println(runes.get(0).keySet().);
+                          /*  for(int i = 0; i < runes.size(); i++){
+                                runeSet = runes.get(i).keySet();
+                                for(Object e : runeSet){
+                                    System.out.println("rune" + i + "runes " + e + "slot " + runes.get(i).get(e));
+                                }
+                               // System.out.println("runes "+ i + "slot "+ runes.get(i));
+                            }*/
+                            request.setAttribute("map", runes);
+                            request.setAttribute("name", summonerName);
+                            System.out.println("here");
+                            request.getRequestDispatcher("runes.jsp").forward(request,response);
+                            response.sendRedirect(request.getContextPath() + "/runes.jsp");
+                            System.out.println("after");
+                        }else if ((!summonerName.equals(null)) && (!summonerName.equals("")) && (!summonerName.equals("null")) && !region.equals(null) && stat.equals("masteries")){
+                            APIConnection api = new APIConnection();
+                            Map<String, Object> map = api.findSummoner(summonerName, region);
+                            ArrayList<Map> masteries = api.summonerMasteries((int)map.get("id"), region);
+                            Set runeSet;
+                            request.setAttribute("map", masteries);
+                            request.setAttribute("name", summonerName);
+                            request.getRequestDispatcher("masteries.jsp").forward(request,response);
+                            response.sendRedirect(request.getContextPath() + "/masteries.jsp");
                         }
-
-
-                    }
-                }else{
-
-                    System.out.println("break 7 ");
-                    response.sendRedirect("/findSum");
-                }
-            }
         }catch(SQLException e){
             System.out.println(e);
         }catch(ClassNotFoundException e){

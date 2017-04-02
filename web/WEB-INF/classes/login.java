@@ -15,7 +15,7 @@ public class login extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         APIConnection api = new APIConnection();
-        api.fillChamps();
+       // api.fillMasteries();
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -27,10 +27,9 @@ public class login extends HttpServlet {
             while(pw.next()) {
                 empty = false;
                 String pass = pw.getString("password");
-                System.out.println(pass);
-                if (password.equals(pass)){
-                    HttpSession session = request.getSession();
-                    session.setAttribute("username", username);
+                 if (password.equals(pass)){
+                     HttpSession session = request.getSession();
+                     session.setAttribute("username", username);
                     response.sendRedirect("/Profile");
                 }
                 else{

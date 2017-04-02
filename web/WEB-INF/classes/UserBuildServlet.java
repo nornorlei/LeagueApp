@@ -11,6 +11,8 @@ import javax.xml.crypto.Data;
 import com.google.gson.JsonObject;
 import java.sql.Connection;
 import com.google.gson.JsonArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class UserBuildServlet extends HttpServlet {
 
@@ -24,23 +26,21 @@ public class UserBuildServlet extends HttpServlet {
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = new DBConnection().getconnection();
             Statement statement = conn.createStatement();
-            String query = "select * from posts where post_id=" + id;
+            String query = "select * from Posts where postID=" + id;
 
             ResultSet post_name = statement.executeQuery(query);
             if(post_name.next()) {
 
-                int postid = post_name.getInt("post_id");
-                int champid = post_name.getInt("champ_id");
+                int postid = post_name.getInt("postID");
 
-                String queryname = "select * from ChampionList where champ_id=" + post_name.getInt("champ_id");
+                String queryname = "select * from Builds where postID=" + postid;
                 ResultSet champ = statement.executeQuery(queryname);
                 String champion = "";
                 if(champ.next()) {
-                    champion = champ.getString("champ_name");
+                     champion = champ.getString("champID");
                 }
                 object.addProperty("PostID", postid);
-                object.addProperty("champid", champid);
-                object.addProperty("Champion name", champion);
+                object.addProperty("Champion", champion);
 
                 String results = object.toString();
                 response.setContentType("application/json");
@@ -50,11 +50,11 @@ public class UserBuildServlet extends HttpServlet {
                 writer.flush();
             }else{
 
-                String query1 = "select post_id from posts";
+                String query1 = "select postID from Posts";
                 ResultSet post_name1 = statement.executeQuery(query1);
 
                 while(post_name1.next()) {
-                    array.add(post_name1.getInt("post_id"));
+                    array.add(post_name1.getInt("postID"));
                 }
                 String results = array.toString();
                 response.setContentType("application/json");
