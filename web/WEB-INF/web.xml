@@ -97,6 +97,7 @@
         <servlet-class>createPost</servlet-class>
     </servlet>
 
+
     <servlet-mapping>
         <servlet-name>found</servlet-name>
         <url-pattern>/found</url-pattern>

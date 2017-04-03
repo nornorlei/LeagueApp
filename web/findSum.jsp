@@ -20,6 +20,8 @@
     </table>
 
     <select name="stat" required>
+        <option value="championMasteries">Champion Masteries</option>
+        <option value="rankedStats">Ranked Stats</option>
         <option value="runes">Runes</option>
         <option value="masteries">Masteries</option>
     </select>

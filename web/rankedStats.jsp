@@ -12,6 +12,6 @@
 </head>
 <body>
 <h1><%=request.getSession().getAttribute("summonerName")%></h1>
-
+<%=request.getAttribute("rankedStats")%>
 </body>
 </html>
