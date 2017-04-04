@@ -41,15 +41,48 @@ public class findSum extends HttpServlet {
             String s = findSum.getSummonerName(summonerName,region);
              if (s.equalsIgnoreCase(summonerName)){
                 if (stat.equals("runes")){
-                    val = "a";
+                    Map<String, Object> map = findSum.findSummoner(summonerName, region);
+                    ArrayList<Map> runes = findSum.summonerRunes((int)map.get("id"), region);
+                    request.setAttribute("map", runes);
+                    request.setAttribute("name", summonerName);
+                    request.getRequestDispatcher("runes.jsp").forward(request,response);
+                    response.sendRedirect(request.getContextPath() + "/runes.jsp");
                 }else if ( stat.equals("masteries")){
-                    val = "b";
+                    Map<String, Object> map = findSum.findSummoner(summonerName, region);
+                    ArrayList<Map> masteries = findSum.summonerMasteries((int)map.get("id"), region);
+                    request.setAttribute("map", masteries);
+                    request.setAttribute("name", summonerName);
+                    request.getRequestDispatcher("masteries.jsp").forward(request,response);
+                    response.sendRedirect(request.getContextPath() + "/masteries.jsp");
                 }else if ( stat.equals("championMasteries")){
-                    val = "c";
+                    int b = toIntExact(findSum.getSummonerID(summonerName,region));
+                    ArrayList<String> championMasteries = findSum.summonerChampMasteries(b,region);
+                    String formattedString = championMasteries.toString().replace("[","").replace(",","").replace("]","");
+                    request.setAttribute("championMasteries",formattedString);
+                    request.setAttribute("name", summonerName);
+                    request.getRequestDispatcher("championMasteries.jsp").forward(request,response);
+                    response.sendRedirect(request.getContextPath() + "/championMasteries.jsp");
                 }else if (stat.equals("rankedStats")){
-                    val = "d";
+                    APIConnection api = new APIConnection();
+                    int b = toIntExact(api.getSummonerID(summonerName,region));
+                    ArrayList<String> rankedStats = api.summonerRankedStats(b,region);
+                    String formattedString = rankedStats.toString().replace("[","").replace(",","").replace("]","");
+                    request.setAttribute("rankedStats",formattedString);
+                    request.setAttribute("name", summonerName);
+                    request.getRequestDispatcher("rankedStats.jsp").forward(request,response);
+                    response.sendRedirect(request.getContextPath() + "/rankedStats.jsp");
                 }else if (stat.equals("matchHistory")){
-                    val = "e";
+                    APIConnection api = new APIConnection();
+                    int b = toIntExact(api.getSummonerID(summonerName,region));
+                    ArrayList<String> rankedStats = api.summonerMatchHistory(b,region);
+                    String formattedString = rankedStats.toString().replace("[","").replace(",","").replace("]","");
+                    request.setAttribute("matchHistory",formattedString);
+                    request.setAttribute("name", summonerName);
+                    request.getRequestDispatcher("matchhistory.jsp").forward(request,response);
+                    response.sendRedirect(request.getContextPath() + "/matchhistory.jsp");
+                }
+                else{
+                    response.sendRedirect("/findSum.jsp");
                 }
                }
             throw new IOException();
@@ -59,69 +92,6 @@ public class findSum extends HttpServlet {
         }catch(NullPointerException e) {
             System.out.println(e);
         }
-            finally
-        {
-            if (val.equals("a")){
-                APIConnection api = new APIConnection();
-                Map<String, Object> map = api.findSummoner(summonerName, region);
-                ArrayList<Map> runes = api.summonerRunes((int)map.get("id"), region);
-                Set runeSet;
-                //System.out.println(runes.get(0).keySet().);
-                          /*  for(int i = 0; i < runes.size(); i++){
-                                runeSet = runes.get(i).keySet();
-                                for(Object e : runeSet){
-                                    System.out.println("rune" + i + "runes " + e + "slot " + runes.get(i).get(e));
-                                }
-                               // System.out.println("runes "+ i + "slot "+ runes.get(i));
-                            }*/
-                request.setAttribute("map", runes);
-                request.setAttribute("name", summonerName);
-                System.out.println("here");
-                request.getRequestDispatcher("runes.jsp").forward(request,response);
-                response.sendRedirect(request.getContextPath() + "/runes.jsp");
-                System.out.println("after");
-            }else if ( val.equals("b")){
-                APIConnection api = new APIConnection();
-                Map<String, Object> map = api.findSummoner(summonerName, region);
-                ArrayList<Map> masteries = api.summonerMasteries((int)map.get("id"), region);
-                Set runeSet;
-                request.setAttribute("map", masteries);
-                request.setAttribute("name", summonerName);
-                request.getRequestDispatcher("masteries.jsp").forward(request,response);
-                response.sendRedirect(request.getContextPath() + "/masteries.jsp");
-            }else if (val.equals("c")){
-                APIConnection api = new APIConnection();
-                int b = toIntExact(api.getSummonerID(summonerName,region));
-                ArrayList<String> championMasteries = api.summonerChampMasteries(b,region);
-                String formattedString = championMasteries.toString().replace("[","").replace(",","").replace("]","");
-                request.setAttribute("championMasteries",formattedString);
-                request.setAttribute("name", summonerName);
-                request.getRequestDispatcher("championMasteries.jsp").forward(request,response);
-                response.sendRedirect(request.getContextPath() + "/championMasteries.jsp");
-            }else if (val.equals("d")){
-                APIConnection api = new APIConnection();
-                int b = toIntExact(api.getSummonerID(summonerName,region));
-                ArrayList<String> rankedStats = api.summonerRankedStats(b,region);
-                String formattedString = rankedStats.toString().replace("[","").replace(",","").replace("]","");
-                request.setAttribute("rankedStats",formattedString);
-                request.setAttribute("name", summonerName);
-                request.getRequestDispatcher("rankedStats.jsp").forward(request,response);
-                response.sendRedirect(request.getContextPath() + "/rankedStats.jsp");
-            }else if(val.equals("e")){
-                APIConnection api = new APIConnection();
-                int b = toIntExact(api.getSummonerID(summonerName,region));
-                ArrayList<String> rankedStats = api.summonerMatchHistory(b,region);
-                String formattedString = rankedStats.toString().replace("[","").replace(",","").replace("]","");
-                request.setAttribute("matchHistory",formattedString);
-                request.setAttribute("name", summonerName);
-                request.getRequestDispatcher("matchhistory.jsp").forward(request,response);
-                response.sendRedirect(request.getContextPath() + "/matchhistory.jsp");
-            }
-            else{
-                response.sendRedirect("/findSum.jsp");
-            }
-        }
-
     }
 
     @Override

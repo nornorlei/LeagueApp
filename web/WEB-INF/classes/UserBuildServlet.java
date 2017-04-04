@@ -37,7 +37,7 @@ public class UserBuildServlet extends HttpServlet {
                 ResultSet champ = statement.executeQuery(queryname);
                 String champion = "";
                 if(champ.next()) {
-                     champion = champ.getString("champID");
+                    champion = champ.getString("champID");
                 }
                 object.addProperty("PostID", postid);
                 object.addProperty("Champion", champion);

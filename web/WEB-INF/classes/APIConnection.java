@@ -303,7 +303,6 @@ public class APIConnection{
                     ArrayList descript = new ArrayList();
                     for(int i = 0; i < description.length(); i++){
                         descript.add(description.getString(i));
-                       // System.out.println(descript.get(i));
                     }
                     PreparedStatement statement = null;
                     statement = conn.prepareStatement("select * from Masteries where id = ?");
@@ -320,11 +319,12 @@ public class APIConnection{
 
                         PreparedStatement statementD = null;
                         statementD = conn.prepareStatement("insert into descriptionsM values (?,?,?)");
-                        for(int i = 0; i < de)
-                        statementD.setInt(1, id);
-                        statementD.setString(2, name);
-                        statementD.setString(3, image);
-                        statementD.execute();
+                        for(int i = 0; i < descript.size(); i++) {
+                            statementD.setInt(1, id);
+                            statementD.setString(2, name);
+                            statementD.setString(3, image);
+                            statementD.execute();
+                        }
                     }*/
 
                    // System.out.println("Descritiion " + description);
