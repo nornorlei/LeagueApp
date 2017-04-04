@@ -11,8 +11,9 @@
     <title>Match History</title>
 </head>
 <body>
-<input type="text" name="summoner" placeholder="Enter Summoner Name">
-<button type="submit" name="sumID">Submit</button>
+<h1><%=request.getAttribute("name")%></h1>
+
+<%=request.getAttribute("matchHistory")%>
 
 
 </body>

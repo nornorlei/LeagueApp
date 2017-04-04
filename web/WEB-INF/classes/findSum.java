@@ -48,6 +48,8 @@ public class findSum extends HttpServlet {
                     val = "c";
                 }else if (stat.equals("rankedStats")){
                     val = "d";
+                }else if (stat.equals("matchHistory")){
+                    val = "e";
                 }
                }
             throw new IOException();
@@ -105,7 +107,17 @@ public class findSum extends HttpServlet {
                 request.setAttribute("name", summonerName);
                 request.getRequestDispatcher("rankedStats.jsp").forward(request,response);
                 response.sendRedirect(request.getContextPath() + "/rankedStats.jsp");
-            }else{
+            }else if(val.equals("e")){
+                APIConnection api = new APIConnection();
+                int b = toIntExact(api.getSummonerID(summonerName,region));
+                ArrayList<String> rankedStats = api.summonerMatchHistory(b,region);
+                String formattedString = rankedStats.toString().replace("[","").replace(",","").replace("]","");
+                request.setAttribute("matchHistory",formattedString);
+                request.setAttribute("name", summonerName);
+                request.getRequestDispatcher("matchhistory.jsp").forward(request,response);
+                response.sendRedirect(request.getContextPath() + "/matchhistory.jsp");
+            }
+            else{
                 response.sendRedirect("/findSum.jsp");
             }
         }

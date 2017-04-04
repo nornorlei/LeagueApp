@@ -23,6 +23,7 @@
         <option value="championMasteries">Champion Masteries</option>
         <option value="rankedStats">Ranked Stats</option>
         <option value="runes">Runes</option>
+        <option value="matchHistory">Match History</option>
         <option value="masteries">Masteries</option>
     </select>
 

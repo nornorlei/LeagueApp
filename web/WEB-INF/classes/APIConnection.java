@@ -3,10 +3,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import com.google.gson.JsonObject;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONString;
 
 import javax.servlet.http.HttpSession;
 import java.sql.*;
@@ -485,6 +485,49 @@ public class APIConnection{
         return  ss;
     }
 
+    public String getTier (int id, String region){
+        String s =  "https://" + region + ".api.riotgames.com/api/lol/" + region + "/v2.5/league/by-summoner/" + id + "/entry?api_key=RGAPI-654f4896-0393-46cc-9043-9e078860ed31";
+        String tierInfo = "";
+        HttpURLConnection connection = getConnection(s);
+        Scanner scanner = null;
+        if(connection != null)
+            scanner = getConnectionScanner(connection);
+        if(scanner != null){
+            String display = "";
+            while(scanner.hasNextLine()) {
+                display = display.concat(scanner.nextLine());
+
+            }
+            try{
+                JSONObject json = new JSONObject(display);
+                String r = Integer.toString(id);
+                JSONArray array = json.getJSONArray(r);
+
+                for (int i = 0; i < array.length() ; i++){
+                    JSONObject obj1 = array.getJSONObject(i);
+                    String tier = obj1.getString("tier");
+                    String queue = obj1.getString("queue");
+                    JSONArray a = obj1.getJSONArray("entries");
+                    JSONObject b = a.getJSONObject(0);
+                    String division = b.getString("division");
+                    int wins = b.getInt("wins");
+                    int losses = b.getInt("losses");
+                    int lp = b.getInt("leaguePoints");
+
+                    tierInfo = ("|" + tier + " " + division + " " + queue + " Wins: " +wins + " Losses: " + losses+ " LP: " + lp + "|").concat(tierInfo);
+                }
+
+
+                tierInfo = "<h2>" + tierInfo + "</h2>";
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+    }
+        return tierInfo;
+    }
     public ArrayList summonerRankedStats(int id, String region){
         String s = "https://" + region + ".api.riotgames.com/api/lol/" + region + "/v1.3/stats/by-summoner/" + id + "/ranked?api_key=RGAPI-654f4896-0393-46cc-9043-9e078860ed31";
 
@@ -501,6 +544,7 @@ public class APIConnection{
             try{
                 JSONObject json = new JSONObject(display);
                 JSONArray data = json.getJSONArray("champions");
+                rankedStats.add(0,getTier(id,region));
                 if(data.length() > 0){
                     for(int i = 0; i < data.length(); i++){
                         JSONObject slots = data.getJSONObject(i);
@@ -525,7 +569,7 @@ public class APIConnection{
                         assists = String.format("%.3g%n",a);
                         creeps = String.format("%.4g%n",c);
 
-                        rankedStats.add(i,"<p>champID: " + champid + "</p><table><tr><td>Wins</td><td>" + win + "</td></tr><tr><td>Losses</td><td>" + loss + "</td></tr><tr><td>Total Games Played</td><td>" + games + "</td></tr><tr><td>Win Rate</td><td>" + winPercent + "</td></tr><tr><td>K/D/A</td><td>" + kills + "/" + deaths + "/" + assists + "</td></tr><tr><td>CS</td><td>" +creeps+"</td></tr></table>");
+                        rankedStats.add(i+1,"<p>champID: " + champid + "</p><table><tr><td>Wins</td><td>" + win + "</td></tr><tr><td>Losses</td><td>" + loss + "</td></tr><tr><td>Total Games Played</td><td>" + games + "</td></tr><tr><td>Win Rate</td><td>" + winPercent + "</td></tr><tr><td>K/D/A</td><td>" + kills + "/" + deaths + "/" + assists + "</td></tr><tr><td>CS</td><td>" +creeps+"</td></tr></table>");
                         //System.out.println("ID: " + champid + " Wins: " + win + " Losses: " + loss + " Total Games Played: " + games + " Win Rate: " + winPercent + " K/D/A " + kills + "/" + deaths + "/" + assists + " CS: " +creeps);
                     }
                 }
@@ -542,7 +586,7 @@ public class APIConnection{
     }
 
     public ArrayList summonerMatchHistory(int id, String region){
-        String s = "https://" + region + ".api.riotgames.com/api/lol/" + region + "/v2.2/matchlist/by-summoner/" + id + "?api_key=RGAPI-654f4896-0393-46cc-9043-9e078860ed31";
+        String s = "https://" + region + ".api.riotgames.com/api/lol/" + region + "/v1.3/game/by-summoner/" + id + "/recent?api_key=RGAPI-654f4896-0393-46cc-9043-9e078860ed31";
 
         ArrayList<String> matchHistory = new ArrayList<>();
         HttpURLConnection connection = getConnection(s);
@@ -556,33 +600,68 @@ public class APIConnection{
             }
             try{
                 JSONObject json = new JSONObject(display);
-                JSONArray data = json.getJSONArray("matches");
+                JSONArray data = json.getJSONArray("games");
                 if(data.length() > 0){
                     for(int i = 0; i < data.length(); i++){
-                        JSONObject slots = data.getJSONObject(i);
-                        JSONObject stats = slots.getJSONObject("stats");
-                        int champid, win, loss;
-                        double games;
-                        String winPercent, kills, deaths, assists, creeps;
-                        champid = slots.getInt("id");
-                        win = stats.getInt("totalSessionsWon");
-                        loss = stats.getInt("totalSessionsLost");
-                        String game = Integer.toString(stats.getInt("totalSessionsPlayed")).concat(".0");
-                        games = Double.parseDouble(game);
-                        double wp,k,d,a,c;
-                        wp=(win*100)/games;
-                        k=stats.getInt("totalChampionKills")/games;
-                        d=stats.getInt("totalDeathsPerSession")/games;
-                        a=stats.getInt("totalAssists")/games;
-                        c=stats.getInt("totalMinionKills")/games;
-                        winPercent = String.format("%.4g%n",wp);
-                        kills = String.format("%.3g%n",k);
-                        deaths = String.format("%.3g%n",d);
-                        assists = String.format("%.3g%n",a);
-                        creeps = String.format("%.4g%n",c);
+                        boolean win;
+                        int champID;
+                        String subGameType;
+                        int k,d,a;
+                        int totalDmg;
+                        int cs;
+                        int gold;
+                        int item0 = 0;
+                        int item1 = 0;
+                        int item2 = 0;
+                        int item3 = 0;
+                        int item4 = 0;
+                        int item5 = 0;
+                        int item6 = 0;
 
-                        rankedStats.add(i,"<p>champID: " + champid + "</p><table><tr><td>Wins</td><td>" + win + "</td></tr><tr><td>Losses</td><td>" + loss + "</td></tr><tr><td>Total Games Played</td><td>" + games + "</td></tr><tr><td>Win Rate</td><td>" + winPercent + "</td></tr><tr><td>K/D/A</td><td>" + kills + "/" + deaths + "/" + assists + "</td></tr><tr><td>CS</td><td>" +creeps+"</td></tr></table>");
-                        //System.out.println("ID: " + champid + " Wins: " + win + " Losses: " + loss + " Total Games Played: " + games + " Win Rate: " + winPercent + " K/D/A " + kills + "/" + deaths + "/" + assists + " CS: " +creeps);
+                        int spell1,spell2;
+
+                        JSONObject slots = data.getJSONObject(i);
+
+                        champID = slots.getInt("championId");
+                        subGameType = slots.getString("subType");
+                        spell1 = slots.getInt("spell1");
+                        spell2 = slots.getInt("spell2");
+
+                        JSONObject stats = slots.getJSONObject("stats");
+                        k = stats.getInt("championsKilled");
+                        d = stats.getInt("numDeaths");
+                        a = stats.getInt("assists");
+                        totalDmg = stats.getInt("totalDamageDealtToChampions");
+                        cs = stats.getInt("minionsKilled");
+                        gold = stats.getInt("goldEarned");
+
+                        try {
+                            item0 = stats.getInt("item0");
+                        }catch (JSONException e){
+                        }try{
+                            item1 = stats.getInt("item1");
+                        }catch (JSONException e){
+                        }try{
+                            item2 = stats.getInt("item2");
+                        }catch (JSONException e){
+                        }try{
+                            item3 = stats.getInt("item3");
+                        }catch (JSONException e){
+                        }try{
+                            item4 = stats.getInt("item4");
+                        }catch (JSONException e){
+                        }try{
+                            item5 = stats.getInt("item5");
+                        }catch (JSONException e){
+                        }try{
+                            item6 = stats.getInt("item6");
+                        }catch (JSONException e){
+                        }
+                        win = stats.getBoolean("win");
+
+                        matchHistory.add(i,"<p>" + (i+1)  + "</p><table><tr><td>Game Type</td><td>" + subGameType + "</td></tr><tr><td>Win</td><td>" + win + "</td></tr><tr><td>ChampID</td><td>" + champID  + "</td></tr><tr><td>K/D/A</td><td>" + k + "/" + d + "/" + a + "</td></tr><tr><td>Damage dealt to champs</td><td>" + totalDmg + "</td></tr><tr><td>CS</td><td>" + cs + "</td></tr><tr><td>Gold</td><td>" + gold + "</td></tr><tr><td>item0</td><td>" + item0 + "</td></tr><tr><td>item1</td><td>" + item1 + "</td></tr><tr><td>item2</td><td>" + item2 + "</td></tr><tr><td>item3</td><td>" + item3 + "</td></tr><tr><td>item4</td><td>" + item4 + "</td></tr><tr><td>item5</td><td>" + item5 + "</td></tr><tr><td>item6</td><td>" + item6 + "</td></tr><tr><td>Summoner Skill 1</td><td>" + spell1 + "</td></tr><tr><td>Summoner Skill 2</td><td>" + spell2 + "</td></tr></table>");
+
+
                     }
                 }
             } catch (JSONException e) {
@@ -590,17 +669,15 @@ public class APIConnection{
             }
         }
 
-        for(int i = 0; i < rankedStats.size(); i++){
-            System.out.println(rankedStats.get(i));
-        }
-
-        return rankedStats;
+        return matchHistory;
     }
-//        public static void main(String [ ] args) {
-//        APIConnection conn = new APIConnection();
-//        ArrayList <Map>  s = conn.summonerRankedStats(23509933,"na");
-//        System.out.println(s);
-//
-//    }
+        public static void main(String [ ] args) {
+        APIConnection conn = new APIConnection();
+        ArrayList <Map>  s = conn.summonerMatchHistory(29489927,"na");
+            //String  s = conn.getTier(23509933,"na");
+
+        System.out.println(s);
+
+    }
 }
 
