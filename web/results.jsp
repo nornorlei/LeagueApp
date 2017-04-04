@@ -4,7 +4,7 @@
     <title>Player Stat</title>
 </head>
 <body>
-<form name=adf action=recentSearch method=POST>
+    <form name=adf action=recentSearch method=POST>
     <input type=submit value="Recently Searched" name=submit>
     <input type=button value="Another Search" onclick=window.location.href='/findSum';>
     <input type=button value="Return to Profile" onclick=window.location.href='/Profile';>
@@ -17,7 +17,7 @@
             <li><a href=#rankstats> Ranked Stats </a></li>
             <li><a href=#runesnmasteries> Runes & Masteries </a></li>
             <li><a href=#champmasteries> Champion Masteries </a></li>
-        </ul>
+            </ul>
 
         <div>
 
@@ -27,12 +27,12 @@
 
             <div id=rankstats>
                 <h3><font size=12>RANKED STATS </font></h3>
-                <p></p>
+                    <p></p>
             </div>
 
             <div id=runesnmasteries>
                 <h4><font size=12>RUNES AND MASTERIES </font></h4>
-                <p></p>
+                    <p></p>
             </div>
 
             <div id=champmasteries>

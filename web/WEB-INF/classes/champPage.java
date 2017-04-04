@@ -33,12 +33,12 @@ public class champPage extends HttpServlet {
             Statement statement = conn.createStatement();
             ResultSet champ_id = statement.executeQuery(query1);
             while(champ_id.next()) {
-                String id = champ_id.getString("champ_id");
+                String id = champ_id.getString("champID");
                 //request.getSession().setAttribute("champ_id",id);
                 System.out.println(id);
 
 
-                String query2 = "select* from Builds where champ_id=" + id;
+                String query2 = "select* from Builds where champID=" + id;
                 ResultSet posts = statement.executeQuery(query2);
 
                 while(posts.next()){
