@@ -11,7 +11,7 @@
     <title>Match History</title>
 </head>
 <body>
-<h1><%=request.getAttribute("name")%></h1>
+<h1><%=request.getAttribute("name")%> Match History</h1>
 
 <%=request.getAttribute("matchHistory")%>
 

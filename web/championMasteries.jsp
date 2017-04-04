@@ -6,7 +6,7 @@
     <title>Champion Masteries</title>
 </head>
 <body>
-<h1><%=request.getAttribute("name")%></h1>
+<h1><%=request.getAttribute("name")%> Champion Masteries</h1>
 
     <%=request.getAttribute("championMasteries")%>
 
