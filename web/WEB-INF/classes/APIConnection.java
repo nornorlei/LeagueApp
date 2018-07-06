@@ -1,16 +1,21 @@
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.util.Date;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONString;
-
-import javax.servlet.http.HttpSession;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
+
+import javax.mail.*;
+import javax.mail.internet.*;
+import javax.activation.*;
 
 public class APIConnection{
 
@@ -407,38 +412,7 @@ public class APIConnection{
         }
     }
 
-    public HttpURLConnection getConnection(String string){
-        URL url = null;
-        HttpURLConnection connection = null;
-        try {
-            url = new URL(string);
-        } catch (MalformedURLException e) {
-            System.out.println("Invalid URL");
-        }
 
-        if (url != null) {
-            try {
-                connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("GET");
-                connection.setRequestProperty("Accept", "application/json");
-            } catch (IOException e) {
-                System.out.println("Failed to get connection");
-            }
-        }
-
-        return connection;
-    }
-
-    private Scanner getConnectionScanner(HttpURLConnection connection) {
-        Scanner scanner = null;
-        try {
-            scanner = new Scanner(connection.getInputStream());
-        } catch (IOException e) {
-            System.out.println("Couldn't get input stream");
-        }
-
-        return scanner;
-    }
 
     public String getSummonerName (String name, String region){
         String s =  "https://" + region + ".api.riotgames.com/api/lol/" + region + "/v1.4/summoner/by-name/" + name + "?api_key=RGAPI-654f4896-0393-46cc-9043-9e078860ed31";
@@ -791,12 +765,185 @@ public class APIConnection{
         }
         return  champName;
     }
-        public static void main(String [ ] args) {
-        APIConnection conn = new APIConnection();
-        ArrayList <Map>  s = conn.summonerMatchHistory(29489927,"na");
-            //String  s = conn.getItemName(3153);
+    public HttpURLConnection getConnection(String string){
+        URL url = null;
+        HttpURLConnection connection = null;
+        try {
+            url = new URL(string);
+        } catch (MalformedURLException e) {
+            System.out.println("Invalid URL");
+        }
 
-        System.out.println(s);
+        if (url != null) {
+            try {
+                connection = (HttpURLConnection) url.openConnection();
+                //uncomment below for league app
+                //connection.setRequestMethod("GET");
+                //connection.setRequestProperty("Accept", "application/json");
+                connection.addRequestProperty("User-Agent","Mozilla/4.0");
+            } catch (IOException e) {
+                System.out.println("Failed to get connection");
+            }
+        }
+
+        return connection;
+    }
+
+    private Scanner getConnectionScanner(HttpURLConnection connection) {
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(connection.getInputStream());
+        } catch (IOException e) {
+            System.out.println(e);
+            System.out.println("Couldn't get input stream");
+        }
+
+        return scanner;
+    }
+
+    //email with subject and text params
+    public void emailReport (String subject, String text){
+        final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
+        // Get a Properties object
+        Properties props = System.getProperties();
+        props.setProperty("mail.smtp.host", "smtp.gmail.com");
+        props.setProperty("mail.smtp.socketFactory.class", SSL_FACTORY);
+        props.setProperty("mail.smtp.socketFactory.fallback", "false");
+        props.setProperty("mail.smtp.port", "465");
+        props.setProperty("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.debug", "true");
+        props.put("mail.store.protocol", "pop3");
+        props.put("mail.transport.protocol", "smtp");
+        final String username = "nlei@oswego.edu";//
+        final String password = "devgrut6";
+        try {
+            String emailSubject = "";
+            String emailText = "";
+
+
+            Session session = Session.getDefaultInstance(props,
+                    new Authenticator() {
+                        protected PasswordAuthentication getPasswordAuthentication() {
+                            return new PasswordAuthentication(username, password);
+                        }
+                    });
+
+            // -- Create a new message --
+            Message msg = new MimeMessage(session);
+
+            // -- Set the FROM and TO fields --
+            msg.setFrom(new InternetAddress("nlei@oswego.edu"));
+
+            msg.addRecipients(Message.RecipientType.CC,
+                    InternetAddress.parse("tripodoreo@gmail.com,nlei@oswego.edu"));
+
+            //email subject
+            msg.setSubject(subject);
+            //email text
+            msg.setText(text);
+
+            msg.setSentDate(new Date());
+            Transport.send(msg);
+
+        } catch (MessagingException e) {
+            System.out.println(e);
+        }
+    }
+
+
+
+    public void JSONRigMonitor() throws InterruptedException {
+        while(1==1){
+            Date date = new Date();
+            System.out.println(date.toString());
+            String s = "https://ethermine.org/api/miner_new/c053c7f0b2513462cdb5ddf60bd8cdfc58e3a8af";
+            HttpURLConnection connection = getConnection(s);
+            Scanner scanner = null;
+            if(connection != null)
+                scanner = getConnectionScanner(connection);
+            if(scanner != null) {
+                String display = "";
+                while (scanner.hasNextLine()) {
+                    display = display.concat(scanner.nextLine());
+                }
+                //System.out.println(display);
+                try {
+
+                    //Getting hashrate
+                    JSONObject jsonobj =  new JSONObject(display);
+
+                    JSONObject obj = jsonobj.getJSONObject("workers");
+                    JSONObject worker1 = obj.getJSONObject("Rig1");
+                    JSONObject worker2 = obj.getJSONObject("Rig2Reddrags");
+                    JSONObject worker3 = obj.getJSONObject("Rig4Nitros");
+
+                    String worker1reportedhash = worker1.getString("reportedHashRate");
+                    String worker2reportedhash = worker2.getString("reportedHashRate");
+                    String worker3reportedhash = worker3.getString("reportedHashRate");
+
+                    System.out.println("Worker 1 reported Hash: " + worker1reportedhash);
+                    System.out.println("Worker 2 reported Hash: " + worker2reportedhash);
+                    System.out.println("Worker 3 reported Hash: " + worker3reportedhash);
+
+                    worker1reportedhash = worker1reportedhash.substring(0, worker1reportedhash.length() - 5);
+                    worker2reportedhash = worker2reportedhash.substring(0, worker2reportedhash.length() - 5);
+                    worker3reportedhash = worker3reportedhash.substring(0, worker3reportedhash.length() - 5);
+
+                    float worker1hash = Float.parseFloat(worker1reportedhash);
+                    float worker2hash = Float.parseFloat(worker2reportedhash);
+                    float worker3hash = Float.parseFloat(worker3reportedhash);
+
+                    boolean worker1failed = worker1hash < 85.0;
+                    boolean worker2failed = worker2hash < 85.0;
+                    boolean worker3failed = worker3hash < 85.0;
+
+                    if ((worker1failed || worker2failed || worker3failed) == true) {
+
+
+                            String emailSubject = "";
+                            String emailText = "";
+
+                            if (worker1failed == true) {
+                                emailSubject = emailSubject.concat("Rig1, ");
+                                emailText = emailText.concat("Rig1 has a reported hashrate of " + worker1hash + ". ");
+                            }
+                            if (worker2failed == true) {
+                                emailSubject = emailSubject.concat("Rig2Reddrags, ");
+                                emailText = emailText.concat("Rig2Reddrags has a reported hashrate of " + worker2hash + ". ");
+                            }
+                            if (worker3failed == true) {
+                                emailSubject = emailSubject.concat("Rig4Nitros, ");
+                                emailText = emailText.concat("Rig4Nitros has a reported hashrate of " + worker3hash + ". ");
+                            }
+                            if ((worker1failed || worker2failed || worker3failed) == true) {
+                                emailSubject.trim();
+                                emailSubject = emailSubject.substring(0, emailSubject.length()-2);
+                                emailSubject = emailSubject.concat(" has failed.");
+                            }
+
+                            emailReport(emailSubject,emailText);
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    System.out.println("Some shit went wrong somewhere");
+                    JSONRigMonitor();
+                }
+
+            }
+            TimeUnit.MINUTES.sleep(30);
+        }
+
+    }
+        public static void main(String [ ] args) throws InterruptedException {
+        APIConnection conn = new APIConnection();
+        //ArrayList <Map>  s = conn.summonerMatchHistory(29489927,"na");
+           // String  s = conn.getItemName(3153);
+
+//        System.out.println(s);
+//            System.out.println(" mod "   + (1%7) +  (2%7));
+            conn.JSONRigMonitor();
 
     }
 }

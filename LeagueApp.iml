@@ -87,5 +87,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="Java EE 6-Java EE 6 (2)" level="project" />
+    <orderEntry type="library" name="javax.mail:mail:1.4.6" level="project" />
   </component>
 </module>
